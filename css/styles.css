@@ -284,3 +284,72 @@ nav a {
 
 }
 
+@media only screen and (max-width: 800px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    p {
+        font-size: 1.3rem;
+    }
+
+    .introDiv p {
+        width: 70vw
+    }
+
+    .focus-section h2 {
+        font-family: 'Assistant', sans-serif;
+        font-weight: 400; 
+        font-size: 1.5rem;
+        margin-bottom: -1rem;
+
+        color: #FFFFFF;
+
+    }
+
+    .ufo-left {
+        width: 30%;
+        left: 10%;
+        top: 20%;
+    }
+
+    .ufo-right {
+        width: 40%;
+        left: 1%;
+        bottom: 20%;
+    }
+
+    .ufo-bottom {
+        width: 50%;
+        right: 0;
+        bottom: 10%;
+        
+    }
+
+    .focus-section {
+        width: 80%;
+        margin: 0 auto;
+        padding-top: 10rem;
+    }
+
+    .vis-section {
+        width: 80%;
+        margin: 0 auto;
+        padding-top: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .conclusion {
+        width: 80%;
+        margin: 0 auto;
+        padding-top: 2rem;
+        margin-bottom: 3rem;
+    }
+
+
+}
+
+@media only screen and (max-width: 600px) {
+    
+}
+
