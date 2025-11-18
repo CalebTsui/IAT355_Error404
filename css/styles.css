@@ -184,6 +184,7 @@ nav a {
     text-underline-offset: 0.5rem;
 }
 
+
 /* Visualization Section */
 
 .vis-section {
@@ -254,6 +255,12 @@ footer h3 {
     width: 100%;
     object-fit: cover;
     z-index: -1;
+}
+
+.scroll-container {
+    width: 850px;       
+    overflow-x: auto;   
+    
 }
 
 /* Responsive */

@@ -21,7 +21,7 @@ async function fetchData() {
 fetchData().then(async ({ naMap, ufoClean }) => {
     const lineTime = vl
         .markLine()
-        .data(ufoClean)    // IMPORTANT: use UFO rows
+        .data(ufoClean)  
         .encode(
         vl.x().fieldQ("year").title("Year"),
         vl.y().aggregate("count").title("Total Sightings"),
@@ -34,12 +34,9 @@ fetchData().then(async ({ naMap, ufoClean }) => {
         .height(480)
         .toSpec();
 
-  // -----------------------------------------------------
-  // HEATMAP
-  // -----------------------------------------------------
     const heatTime = vl
         .markRect({ stroke: "white", strokeWidth: 1 })
-        .data(ufoClean)    // IMPORTANT
+        .data(ufoClean)    
         .encode(
         vl.x().bin({ step: 10 }).fieldQ("year").title("Decade"),
         vl.y().fieldN("shape").title("UFO Shape"),
@@ -78,9 +75,43 @@ fetchData().then(async ({ naMap, ufoClean }) => {
         .toSpec();
     }
 
+    const shapeDis = vl
+        .markRect({ stroke: "white", strokeWidth: 1 })
+        .data(ufoClean)   
+        .encode(
+            vl.y().fieldO("shape").title("UFO Shapes"),
+            vl.x().bin({step:60}).fieldO("duration").title("Duration (Sec)"),
+            vl.color().aggregate("count"),
+            vl.tooltip([
+                vl.y().fieldO("shape"),
+                vl.x().aggregate("count")
+            ])
+        )
+        .width(5000)
+        .height(480)
+        .toSpec();
+
+    const sightDur = vl
+        .markRect()
+        .data(ufoClean)
+        .encode(
+            vl.y().aggregate("count"),
+            vl.x().bin({step:20}).fieldO("duration").title("Duration (Sec)"),
+            vl.color().aggregate("count"),
+            vl.tooltip([
+                vl.x().bin({step:7200}).fieldO("duration").aggregate("count")
+            ]),
+            vl.text().bin({step:7200}).fieldO("duration").aggregate("count"),
+            )
+        .width(5000)
+        .height(480)
+        .toSpec();
+
     render("#view", lineTime);
     render("#view2", heatTime);
     render("#view3", mapVis(naMap, ufoClean)); 
+    render("#view4", shapeDis);
+    render("#view5", sightDur);
 });
 
 async function render(viewID, spec) {
