@@ -2,16 +2,48 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+
+    <!-- Vega-lite stuff -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite-api@5.6.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-tooltip"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>UFO Sighting</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" type="image/png" href="assets/images/alien_black.png">
+
+    <script>
+      const options = {
+        config: {
+          // Vega-Lite default configuration
+        },
+        init: (view) => {
+          // initialize tooltip handler
+          view.tooltip(new vegaTooltip.Handler().call);
+        },
+        view: {
+          // view constructor options
+          // remove the loader if you don't want to default to vega-datasets!
+          loader: vega.loader({
+            baseURL: "https://cdn.jsdelivr.net/npm/vega-datasets@2/",
+          }),
+          renderer: "canvas",
+        },
+      };
+
+      // register vega and vega-lite with the API
+      vl.register(vega, vegaLite, options);
+    </script>
 
   </head>
 
@@ -105,11 +137,11 @@
         <h1>Timeline of UFO Sightings (1950s–recent)</h1>
         <p class="smallDes">Small Description: Through this project, 
             the team hopes to reveal patterns that might otherwise seem random or coincidental. </p>
-        <div class="placeholder"></div>
-        <div class="placeholder"></div>
+        <div id="view"></div>
+        <div id="view2"></div>
         <p class="focus-title">
-                <b>Insight</b>
-            </p>
+            <b>Insight</b>
+        </p>
             <p>
                 Through this project, the team hopes to reveal patterns that might otherwise seem random 
                 or coincidental. By transforming the dataset into meaningful visualizations, 
@@ -123,7 +155,7 @@
         <h1>Locations of UFO Sightings (1950s–recent)</h1>
         <p class="smallDes">Small Description: Through this project, 
             the team hopes to reveal patterns that might otherwise seem random or coincidental. </p>
-        <div class="placeholder"></div>
+        <div id="view3"></div>
         <p class="focus-title">
                 <b>Insight</b>
             </p>
@@ -140,7 +172,7 @@
         <h1>UFO Shape vs Sighting Duration</h1>
         <p class="smallDes">Small Description: Through this project, 
             the team hopes to reveal patterns that might otherwise seem random or coincidental. </p>
-        <div class="placeholder"></div>
+        <div id="view4"></div>
         <p class="focus-title">
                 <b>Insight</b>
             </p>
@@ -157,7 +189,7 @@
         <h1>Duration vs. Sighting Frequency</h1>
         <p class="smallDes">Small Description: Through this project, 
             the team hopes to reveal patterns that might otherwise seem random or coincidental. </p>
-        <div class="placeholder"></div>
+        <div id="view5"></div>
         <p class="focus-title">
                 <b>Insight</b>
             </p>
