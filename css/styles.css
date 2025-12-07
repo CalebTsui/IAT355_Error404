@@ -224,6 +224,81 @@ nav a {
     color: #FFFFFF;
 }
 
+/* map visualization */
+/* SLIDER WRAPPER */
+.year-slider-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* SLIDER LABEL */
+#yearLabel {
+    color: white;   /* <-- white text */
+    font-size: 18px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* BASE SLIDER */
+#yearSlider {
+    -webkit-appearance: none;
+    width: 70%;
+    height: 6px;
+    border-radius: 5px;
+    background: white;            /* <-- white track */
+    outline: none;
+    opacity: 0.9;
+    transition: opacity 0.3s ease, background 0.3s ease;
+}
+
+/* drag */
+#yearSlider:active {
+    cursor: grabbing;
+    opacity: 1;
+}
+
+/* slider track */ 
+#yearSlider::-webkit-slider-runnable-track {
+    height: 0.4rem;             
+    background: red;
+    border-radius: 0.3rem;     
+}
+
+/* the ball thumb */
+#yearSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;               
+    height: 1rem;              
+    margin-top: -0.3rem;       
+    background: white;          
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+/* thumb on hover */
+#yearSlider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* firebox */
+#yearSlider::-moz-range-track {
+    height: 0.4rem;             
+    background: white;
+    border-radius: 0.3rem;
+}
+
+#yearSlider::-moz-range-thumb {
+    width: 1rem;               
+    height: 1rem;             
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+
 /* Footer */
 
 footer {
