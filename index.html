@@ -11,6 +11,19 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-tooltip"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- Leaflet Marker Cluster -->
+    <link 
+    rel="stylesheet" 
+    href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" 
+    />
+    <link 
+    rel="stylesheet" 
+    href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" 
+    />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>UFO Sighting</title>
@@ -135,11 +148,22 @@
     </section>
 
     <section class="vis-section" id="timeline">
-        <h1>Timeline of UFO Sightings (1950s–recent)</h1>
+        <h1>Timeline of UFO Sightings in the past 20 years</h1>
         <p class="smallDes">Small Description: Through this project, 
             the team hopes to reveal patterns that might otherwise seem random or coincidental. </p>
-        <div id="view"></div>
-        <div id="view2"></div>
+
+
+        <div id="guessContainer">
+            <p>Which year do you think had the most UFO sightings? (2005–2014)</p>
+            <input id="guessInput" type="number" placeholder="Enter a year" />
+            <button id="guessBtn">Submit Guess</button>
+            <p id="guessError" style="color:red; display:none;">Invalid year. Try again.</p>
+        </div>
+
+        <div id="timelineWrapper" style="display:none;">
+            <div id="timelineChart"></div>
+        </div>
+
         <p class="focus-title">
             <b>Insight</b>
         </p>
@@ -153,10 +177,12 @@
     </section>
 
     <section class="vis-section" id="locations">
-        <h1>Locations of UFO Sightings (1950s–recent)</h1>
+        <h1>Locations of UFO Sightings in the past 20 years</h1>
         <p class="smallDes">Small Description: Through this project, 
             the team hopes to reveal patterns that might otherwise seem random or coincidental. </p>
-        <div id="view3"></div>
+
+        <div id="ufoMap" style="width: 100%; height: 650px;"></div>
+
         <p class="focus-title">
                 <b>Insight</b>
             </p>
@@ -242,5 +268,7 @@
 
   </footer>
 
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
   <script src="js/script.js"></script>
 </html>
