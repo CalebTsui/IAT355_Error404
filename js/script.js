@@ -72,19 +72,19 @@ fetchData().then(({ naMap, ufoClean }) => {
     const minYear = 2005;
     const maxYear = 2014;
 
-    // Keep only those years
+    // Keep only specific yeaer
     const ufoFiltered = ufoClean.filter(d => d.year >= minYear && d.year <= maxYear);
 
-    // 1. Initialize map
+    // Initialize map
     const map = L.map("ufoMap").setView([37.8, -96.0], 4);
 
-    // 2. Add OpenStreetMap tiles
+    // Add OpenStreetMap tiles
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: "&copy; OpenStreetMap contributors"
     }).addTo(map);
 
-    // 3. Create a marker cluster group
+    // Create a marker cluster group
     let markers = L.markerClusterGroup({
         chunkedLoading: true,
         maxClusterRadius: 60
@@ -92,12 +92,8 @@ fetchData().then(({ naMap, ufoClean }) => {
 
     map.addLayer(markers);
 
-
-    // -------------------------------
-    // FUNCTION: UPDATE MAP BY SLIDER
-    // -------------------------------
     function updateMap(selectedYear) {
-        markers.clearLayers(); // remove previous layer
+        markers.clearLayers(); 
 
         const cumulativeData = ufoFiltered.filter(d => d.year <= selectedYear);
 
@@ -129,9 +125,7 @@ fetchData().then(({ naMap, ufoClean }) => {
     }
 
 
-    // -------------------------------
-    // SLIDER ELEMENTS
-    // -------------------------------
+    // slider
     const slider = document.getElementById("yearSlider");
     const yearLabel = document.getElementById("yearLabel");
 
@@ -180,9 +174,7 @@ function drawTimeline(ufoData) {
         renderTimeline(guessedYear);
     };
 
-    // ============================
-    // 2. NORMAL TIMELINE DRAWING
-    // ============================
+    // line 
     function renderTimeline(guessedYear) {
         const currentYear = new Date().getFullYear();
         const filtered = ufoData.filter(d => d.year >= currentYear - 20);
