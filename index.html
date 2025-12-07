@@ -204,6 +204,22 @@
             </p>
     </section>
 
+    <section class="vis-section" id="shape-map">
+        <h1>UFO Sightings by Shape</h1>
+        <p class="smallDes">Select a UFO shape to see where sightings of that type have occurred.</p>
+
+        <!-- Dropdown for selecting shape -->
+        <div class="shape-filter">
+            <label for="shape-select" style="color:white">Choose a shape:</label>
+            <select id="shapeSelect">
+                <option value="">All shapes</option>
+            </select>
+        </div>
+
+        <!-- Map container -->
+        <div id="shapeUfoMap" style="width: 100%; height: 650px"></div>
+    </section>
+
     <section class="vis-section" id="shape-duration">
         <h1>UFO Shape vs Sighting Duration</h1>
         <p class="smallDes">Small Description: Through this project, 
