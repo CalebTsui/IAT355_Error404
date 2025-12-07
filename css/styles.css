@@ -204,6 +204,12 @@ nav a {
     margin-bottom: 3rem;
 }
 
+#shapeSelect {
+    padding: 0.3rem 0.5rem;
+    margin-left: 0.5rem;
+    border-radius: 0.5rem;
+}
+
 /* Conclusion */
 
 .conclusion {

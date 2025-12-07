@@ -361,3 +361,47 @@ function drawTimeline(ufoData) {
         svg.selectAll(".tick line").style("stroke", "white");
     }
 }
+
+fetchData().then(({ ufoClean }) => {
+
+    const shapeMap = L.map("shapeMap").setView([37.8, -96.0], 4);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(shapeMap);
+
+    let markers = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 60});
+    shapeMap.addLayer(markers);
+
+    // Dropdown listener
+    const shapeSelect = document.getElementById("shapeSelect");
+    shapeSelect.addEventListener("change", () => {
+        const selectedShape = shapeSelect.value;
+        updateShapeMap(selectedShape);
+    });
+
+    // Update function
+    function updateShapeMap(shape) {
+        markers.clearLayers();
+        const filtered = ufoClean.filter(d => d.shape === shape);
+        filtered.forEach(d => {
+            if (!isNaN(d.lat) && !isNaN(d.lon)) {
+                const marker = L.circleMarker([d.lat, d.lon], {
+                    radius: 6,
+                    fillColor: "#ff3333",
+                    color: "#660000",
+                    weight: 1,
+                    fillOpacity: 0.9
+                });
+                marker.bindPopup(`<b>${d.city}, ${d.state}</b><br>
+                    <b>Year:</b> ${d.year}<br>
+                    <b>Duration:</b> ${d.duration} sec`);
+                markers.addLayer(marker);
+            }
+        });
+        if (markers.getLayers().length > 0) {
+            shapeMap.fitBounds(markers.getBounds(), { padding: [40, 40]});
+        }
+    }
+    updateShapeMap(shapeSelect.value);
+})

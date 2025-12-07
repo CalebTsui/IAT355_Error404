@@ -210,14 +210,18 @@
 
         <!-- Dropdown for selecting shape -->
         <div class="shape-filter">
-            <label for="shape-select" style="color:white">Choose a shape:</label>
+            <label for="shape-select" style="color:white">Select UFO Shape:</label>
             <select id="shapeSelect">
-                <option value="">All shapes</option>
+                <option value="light">Light</option>
+                <option value="circle">Circle</option>
+                <option value="triangle">Triangle</option>
+                <option value="fireball">Fireball</option>
+                <option value="disk">Disk</option>
             </select>
         </div>
 
         <!-- Map container -->
-        <div id="shapeUfoMap" style="width: 100%; height: 650px"></div>
+        <div id="shapeMap" style="width: 100%; height: 650px"></div>
     </section>
 
     <section class="vis-section" id="shape-duration">
