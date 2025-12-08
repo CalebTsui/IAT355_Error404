@@ -5,6 +5,7 @@
 
     <!-- Vega-lite stuff -->
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite-api@5.6.0"></script>
@@ -176,6 +177,8 @@
             </p>
     </section>
 
+    
+
     <section class="vis-section" id="locations">
         <h1>Locations of UFO Sightings in the past 20 years</h1>
         <p class="smallDes">Small Description: Through this project, 
@@ -188,10 +191,24 @@
 
         <div id="ufoMap" style="width: 100%; height: 650px;"></div>
 
-        
+        <p class="focus-title">
+                <b>Insight</b>
+            </p>
+            <p>
+                Through this project, the team hopes to reveal patterns that might otherwise seem random 
+                or coincidental. By transforming the dataset into meaningful visualizations, 
+                we aim to uncover and communicate the correlations behind UFO sighting trends - 
+                highlighting geographic hotspots, clustering behaviours, and how environmental factors 
+                such as location, latitude, longitude, and proximity to major urban areas relate to sighting frequency.
+            </p>
+    </section>
 
+        <section class="vis-section" id="shape-duration">
+        <h1>Most common Shapes</h1>
+        <p class="smallDes">Small Description: Through this project, 
+            the team hopes to reveal patterns that might otherwise seem random or coincidental.</p>
         
-
+            <div id="bars" class="viz"></div>
         <p class="focus-title">
                 <b>Insight</b>
             </p>
@@ -224,7 +241,7 @@
         <div id="shapeMap" style="width: 100%; height: 650px"></div>
     </section>
 
-    <section class="vis-section" id="shape-duration">
+    <!-- <section class="vis-section" id="shape-duration">
         <h1>UFO Shape vs Sighting Duration</h1>
         <p class="smallDes">Small Description: Through this project, 
             the team hopes to reveal patterns that might otherwise seem random or coincidental. <b>(Horizontal Scroll)</b></p>
@@ -260,14 +277,21 @@
                 highlighting geographic hotspots, clustering behaviours, and how environmental factors 
                 such as location, latitude, longitude, and proximity to major urban areas relate to sighting frequency.
             </p>
-    </section>
+    </section> -->
 
     <section class="conclusion" id="conclusion">
         <div>
             <h2>Conclusion</h2>
-            <h1>Placeholder is the hotspot for UFO sighting with this being the most common shape 
-                and the avagere duration is 100asdf seconds...(Placeholder)
+            <h1>How likely is it that UFOs are Real?
             </h1>
+
+            <label>
+                Y-axis scale: <input id="yScale" type="range" min="0.000001" max="1" step="0.000001" value="1">
+            <span id="yScaleVal">1.0×</span>
+            </label>
+
+            <div id="scatter" class="viz"></div>
+
         </div>
 
         <div class="space-down"> 
@@ -283,6 +307,8 @@
             </p>
 
         </div>
+
+
         
     </section>
 

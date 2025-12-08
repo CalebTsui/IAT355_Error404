@@ -344,6 +344,14 @@ footer h3 {
     
 }
 
+  label { display: block; 
+    margin-bottom: 6px; 
+    color: #FFFFFF
+}
+  .viz { margin-bottom: 36px; }
+  svg { display: block; }
+  .axis text { font-size: 12px; }
+
 /* Responsive */
 
 @media only screen and (max-width: 800px) {

@@ -18,6 +18,10 @@ async function fetchData() {
     return { naMap, ufoClean };
 }
 
+
+
+
+
 fetchData().then(async ({ naMap, ufoClean }) => {
     ufoCleanRecent = ufoClean.filter(d => d.year >= 1995)
 
@@ -397,3 +401,215 @@ fetchData().then(({ ufoClean }) => {
     }
     updateShapeMap(shapeSelect.value);
 })
+
+
+//neal stuff
+
+// visualization loading data=============================================================
+
+d3.csv("dataset/ufo_sightings.csv").then(data => {
+
+  // Convert numeric fields
+  data.forEach(d => {
+    d.year = +d["Dates.Documented.Year"];
+    d.duration = +d["Data.Encounter duration"];
+    d.shape = d["Data.Shape"]?.trim();
+  });
+
+  buildScatterplot(data);
+  buildBarChart(data);
+});
+
+// visualization functions=============================================================
+
+/* =========================
+   VISUALIZATION 1 — SCATTER
+   ========================= */
+function buildScatterplot(data) {
+  const container = d3.select("#scatter");
+  container.selectAll("*").remove();
+
+  const width = 900, height = 520;
+  const margin = { top: 20, right: 20, bottom: 50, left: 70 };
+
+  const svg = container.append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .style("border", "1px solid #ddd")
+    .style("background", "#fff");
+
+  // base scales (untransformed)
+  const x0 = d3.scaleLinear()
+    .domain(d3.extent(data, d => d.year)).nice()
+    .range([margin.left, width - margin.right]);
+
+  const maxDuration = d3.max(data, d => d.duration);
+  const y0 = d3.scaleLinear()
+    .domain([0, maxDuration]).nice()
+    .range([height - margin.bottom, margin.top]);
+
+  // axis groups
+  const gx = svg.append("g").attr("class", "x axis")
+    .attr("transform", `translate(0, ${height - margin.bottom})`);
+  const gy = svg.append("g").attr("class", "y axis")
+    .attr("transform", `translate(${margin.left},0)`);
+
+  // plot group
+  const dotsG = svg.append("g").attr("class", "dots");
+
+  // initial axis draw
+  gx.call(d3.axisBottom(x0).ticks(10, "d"));
+  gy.call(d3.axisLeft(y0).ticks(8));
+
+  // create circles bound to data
+  dotsG.selectAll("circle")
+    .data(data)
+    .join("circle")
+      .attr("cx", d => x0(d.year))
+      .attr("cy", d => y0(d.duration))
+      .attr("r", 3)
+      .attr("fill", "steelblue")
+      .attr("opacity", 0.8);
+
+  // zoom behavior
+  const zoom = d3.zoom()
+    .scaleExtent([1, 40])
+    .translateExtent([[0, 0], [width, height]])
+    .extent([[margin.left, margin.top], [width - margin.right, height - margin.bottom]])
+    .on("zoom", zoomed);
+
+  svg.call(zoom);
+
+  // Slider controls the y-domain multiplier (applied to the max value)
+  const slider = document.getElementById("yScale");
+  const sliderLabel = document.getElementById("yScaleVal");
+  slider.addEventListener("input", () => {
+    sliderLabel.textContent = (+slider.value).toFixed(1) + "×";
+    applyYScaleAndRedraw();
+  });
+
+  // applyYScaleAndRedraw respects the current transform so zoom isn't lost
+  function applyYScaleAndRedraw() {
+    const factor = +slider.value;
+
+    // new base y scale with scaled domain max
+    const yScaled = d3.scaleLinear()
+      .domain([0, (maxDuration || 1) * factor]).nice()
+      .range([height - margin.bottom, margin.top]);
+
+    // preserve current zoom transform so view doesn't jump when slider changes
+    const t = d3.zoomTransform(svg.node());
+    const zx = t.rescaleX(x0);
+    const zy = t.rescaleY(yScaled);
+
+    // update axes and dots using rescaled axes (so zoom + slider compose)
+    gx.call(d3.axisBottom(zx).ticks(10, "d"));
+    gy.call(d3.axisLeft(zy).ticks(8));
+
+    dotsG.selectAll("circle")
+      .attr("cx", d => zx(d.year))
+      .attr("cy", d => zy(d.duration));
+  }
+
+  // initial call to set slider label
+  sliderLabel.textContent = (+slider.value).toFixed(1) + "×";
+
+  // zoom handler
+  function zoomed(event) {
+    // When zooming, we must recompute the rescaled axes from the current base scales.
+    // The base y scale must incorporate the current slider factor.
+    const factor = +slider.value;
+    const yScaled = d3.scaleLinear()
+      .domain([0, (maxDuration || 1) * factor/10]).nice()
+      .range([height - margin.bottom, margin.top]);
+
+    const t = event.transform;
+    const zx = t.rescaleX(x0);
+    const zy = t.rescaleY(yScaled);
+
+    gx.call(d3.axisBottom(zx).ticks(10, "d"));
+    gy.call(d3.axisLeft(zy).ticks(8));
+
+    dotsG.selectAll("circle")
+      .attr("cx", d => zx(d.year))
+      .attr("cy", d => zy(d.duration));
+  }
+
+  // ensure initial layout respects slider value
+  applyYScaleAndRedraw();
+}
+
+/* ============================
+   VISUALIZATION 2 — BAR CHART
+   (all shapes; top 5 highlighted)
+   ============================ */
+function buildBarChart(raw) {
+  const container = d3.select("#bars");
+  container.selectAll("*").remove();
+
+  const width = 900, height = 480;
+  const margin = { top: 20, right: 20, bottom: 120, left: 80 };
+
+  // clean shapes, exclude "unknown" and "other"
+  const shapes = raw
+    .map(d => (d["Data.Shape"] || "").trim())
+    .filter(s => s && s.toLowerCase() !== "unknown" && s.toLowerCase() !== "other");
+
+  // count occurrences
+  const counts = Array.from(d3.rollup(shapes, v => v.length, d => d), ([shape, count]) => ({shape, count}));
+
+  // sort descending by count
+  counts.sort((a, b) => d3.descending(a.count, b.count));
+
+  // compute top 5 shapes
+  const top5Set = new Set(counts.slice(0, 5).map(d => d.shape));
+
+  // SVG
+  const svg = container.append("svg").attr("width", width).attr("height", height)
+    .style("border", "1px solid #ddd").style("background", "#fff");
+
+  const x = d3.scaleBand()
+    .domain(counts.map(d => d.shape))
+    .range([margin.left, width - margin.right])
+    .padding(0.12);
+
+  const y = d3.scaleLinear()
+    .domain([0, d3.max(counts, d => d.count) || 1]).nice()
+    .range([height - margin.bottom, margin.top]);
+
+  // axes
+  const xg = svg.append("g")
+    .attr("transform", `translate(0, ${height - margin.bottom})`)
+    .call(d3.axisBottom(x))
+    .selectAll("text")
+      .attr("transform", "rotate(-45)")
+      .style("text-anchor", "end");
+
+  svg.append("g")
+    .attr("transform", `translate(${margin.left},0)`)
+    .call(d3.axisLeft(y).ticks(6));
+
+  // bars
+  svg.append("g")
+    .selectAll("rect")
+    .data(counts)
+    .join("rect")
+      .attr("x", d => x(d.shape))
+      .attr("y", d => y(d.count))
+      .attr("width", d => x.bandwidth())
+      .attr("height", d => y(0) - y(d.count))
+      .attr("fill", "steelblue")
+      .attr("opacity", d => top5Set.has(d.shape) ? 1 : 0.25);
+
+  // optional: add value labels on top of top 5 bars
+  svg.append("g")
+    .selectAll("text.count")
+    .data(counts.filter(d => top5Set.has(d.shape)))
+    .join("text")
+      .attr("class", "count")
+      .attr("x", d => x(d.shape) + x.bandwidth()/2)
+      .attr("y", d => y(d.count) - 6)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 11)
+      .text(d => d.count);
+}
