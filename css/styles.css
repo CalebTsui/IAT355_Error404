@@ -344,13 +344,27 @@ footer h3 {
     
 }
 
-  label { display: block; 
+  /* label { display: block; 
     margin-bottom: 6px; 
     color: #FFFFFF
 }
   .viz { margin-bottom: 36px; }
   svg { display: block; }
-  .axis text { font-size: 12px; }
+  .axis text { font-size: 12px; } */
+
+  #chart {
+  width: 900px;
+  height: 500px;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.axis path,
+.axis line {
+  stroke: #FFFFFF;
+}
 
 /* Responsive */
 
