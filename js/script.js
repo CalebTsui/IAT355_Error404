@@ -864,7 +864,7 @@ d3.csv("dataset/ufo_sightings.csv").then(data => {
     .attr("y", d => y(d.length))
     .attr("width", d => Math.max(0, x(d.x1) - x(d.x0) - 1))
     .attr("height", d => innerHeight - y(d.length))
-    .attr("fill", "#4DA3FF");
+    .attr("fill", "#1A3993");
 
   // X Axis (white)
   g.append("g")
