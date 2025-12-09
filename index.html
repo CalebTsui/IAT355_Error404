@@ -79,9 +79,10 @@
 
                 <div class="navDiv">
                     <a href= "#focus">About</a>
-                    <a href= "#timeline">Topic 1</a>
-                    <a href= "#locations">Topic 2</a>
-                    <a href= "#duration-frequency">Topic 3</a>
+                    <a href= "#timeline">Timeline</a>
+                    <a href= "#locations">Map</a>
+                    <a href= "#common-shape">UFO Shapes</a>
+                    <a href= "#histogram">Duration</a>
                     <a href= "#conclusion">Conclusion</a>
 
                 </div>
@@ -150,14 +151,13 @@
 
     <section class="vis-section" id="timeline">
         <h1>Timeline of UFO Sightings in the past 20 years</h1>
-        <p class="smallDes">Small Description: Through this project, 
-            the team hopes to reveal patterns that might otherwise seem random or coincidental. </p>
+        <p class="smallDes">Answer the question to see the graph!</p>
 
 
         <div id="guessContainer">
             <p>Which year do you think had the most UFO sightings? (2005–2014)</p>
             <input id="guessInput" type="number" placeholder="Enter a year" />
-            <button id="guessBtn">Submit Guess</button>
+            <button id="guessBtn">Submit</button>
             <p id="guessError" style="color:red; display:none;">Invalid year. Try again.</p>
         </div>
 
@@ -169,11 +169,10 @@
             <b>Insight</b>
         </p>
             <p>
-                Through this project, the team hopes to reveal patterns that might otherwise seem random 
-                or coincidental. By transforming the dataset into meaningful visualizations, 
-                we aim to uncover and communicate the correlations behind UFO sighting trends - 
-                highlighting geographic hotspots, clustering behaviours, and how environmental factors 
-                such as location, latitude, longitude, and proximity to major urban areas relate to sighting frequency.
+                From 2005 to 2010, UFO sightings were fairly steady, with only a slight increase over time. 
+                In 2012, the number of reports peaked, which may be linked to the official end of the U.S. 
+                government’s secretive UFO program, AATIP. Following 2012, sightings dropped noticeably, 
+                returning closer to the levels seen earlier in the decade.
             </p>
     </section>
 
@@ -181,8 +180,7 @@
 
     <section class="vis-section" id="locations">
         <h1>Locations of UFO Sightings in the past 20 years</h1>
-        <p class="smallDes">Small Description: Through this project, 
-            the team hopes to reveal patterns that might otherwise seem random or coincidental. </p>
+        <p class="smallDes">Drag the slider to see some changes</p>
 
         <div class="year-slider-container">
     <label id="yearLabel"><b>Showing up to year: 2005</b></label>
@@ -195,29 +193,29 @@
                 <b>Insight</b>
             </p>
             <p>
-                Through this project, the team hopes to reveal patterns that might otherwise seem random 
-                or coincidental. By transforming the dataset into meaningful visualizations, 
-                we aim to uncover and communicate the correlations behind UFO sighting trends - 
-                highlighting geographic hotspots, clustering behaviours, and how environmental factors 
-                such as location, latitude, longitude, and proximity to major urban areas relate to sighting frequency.
+                From the visualization, the eastern states reported more sightings than western states. 
+                Specifically, Chicago on the east coast and LA on the west coast reported to have the most 
+                reports within their respective regions. Our team’s hypothesis for this reason is that these 
+                cities are heavily populated, increasing the likelihood for ufo exposure. However, these cities 
+                are filled with lights and other atmospheric objects, making it plausible for some of these ufo sightings 
+                to be mistaken from something else. 
             </p>
     </section>
 
-        <section class="vis-section" id="shape-duration">
+    <section class="vis-section" id="common-shape">
         <h1>Most common Shapes</h1>
-        <p class="smallDes">Small Description: Through this project, 
-            the team hopes to reveal patterns that might otherwise seem random or coincidental.</p>
+        <p class="smallDes">Click on the bars to learn about the UFO shape!</p>
         
             <div id="bars" class="viz"></div>
         <p class="focus-title">
                 <b>Insight</b>
             </p>
             <p>
-                Through this project, the team hopes to reveal patterns that might otherwise seem random 
-                or coincidental. By transforming the dataset into meaningful visualizations, 
-                we aim to uncover and communicate the correlations behind UFO sighting trends - 
-                highlighting geographic hotspots, clustering behaviours, and how environmental factors 
-                such as location, latitude, longitude, and proximity to major urban areas relate to sighting frequency.
+                From the dataset, the most commonly identified ufo shapes are the light, triangle, 
+                circle, fireball and sphere shapes. We had intentionally excluded the unknown and other 
+                shapes as the credibility of those reports are up to debate as they lack detail in their sightings. 
+                Our hypothesis for this reason is because these shapes are visually similarly to one another, making it 
+                likely that the most prominent would be visually similar shapes.
             </p>
     </section>
 
@@ -245,77 +243,47 @@
         <p id="shapeInsight"></p>
     </section>
 
-    <!-- <section class="vis-section" id="shape-duration">
-        <h1>UFO Shape vs Sighting Duration</h1>
-        <p class="smallDes">Small Description: Through this project, 
-            the team hopes to reveal patterns that might otherwise seem random or coincidental. <b>(Horizontal Scroll)</b></p>
-        <div class="scroll-container">
-            <div id="view4"></div>
-        </div>
-        <p class="focus-title">
-                <b>Insight</b>
-            </p>
-            <p>
-                Through this project, the team hopes to reveal patterns that might otherwise seem random 
-                or coincidental. By transforming the dataset into meaningful visualizations, 
-                we aim to uncover and communicate the correlations behind UFO sighting trends - 
-                highlighting geographic hotspots, clustering behaviours, and how environmental factors 
-                such as location, latitude, longitude, and proximity to major urban areas relate to sighting frequency.
-            </p>
-    </section>
-
-    <section class="vis-section" id="duration-frequency">
-        <h1>Duration vs. Sighting Frequency</h1>
-        <p class="smallDes">Small Description: Through this project, 
-            the team hopes to reveal patterns that might otherwise seem random or coincidental. <b>(Horizontal Scroll)</b></p>
-        <div class="scroll-container">
-            <div id="view5"></div>
-        </div>
-        <p class="focus-title">
-                <b>Insight</b>
-            </p>
-            <p>
-                Through this project, the team hopes to reveal patterns that might otherwise seem random 
-                or coincidental. By transforming the dataset into meaningful visualizations, 
-                we aim to uncover and communicate the correlations behind UFO sighting trends - 
-                highlighting geographic hotspots, clustering behaviours, and how environmental factors 
-                such as location, latitude, longitude, and proximity to major urban areas relate to sighting frequency.
-            </p>
-    </section> -->
-
-    <section class="conclusion" id="conclusion">
+    <section class="vis-section" id="histogram">
         <div>
-            <h2>Conclusion</h2>
-            <h1>How likely is it that UFOs are Real?
-            </h1>
-
-            <!-- <label>
-                Y-axis scale: <input id="yScale" type="range" min="0.000001" max="1" step="0.000001" value="1">
-            <span id="yScaleVal">1.0×</span>
-            </label>
-
-            <div id="scatter" class="viz"></div> -->
-
-              <h2>UFO Duration Histogram (Trimmed 0–95th Percentile)</h1>
+            <h1>UFO Duration Histogram (Trimmed 0–95th Percentile)</h1>
             <svg id="chart" width="900" height="500"></svg>
-
         </div>
         
         <div class="space-down"> 
             <p class="focus-title">
-                <b>Based on the visualizations...</b>
+                <b>Insight</b>
             </p>
             <p>
-                Through this project, the team hopes to reveal patterns that might otherwise seem random 
-                or coincidental. By transforming the dataset into meaningful visualizations, 
-                we aim to uncover and communicate the correlations behind UFO sighting trends - 
-                highlighting geographic hotspots, clustering behaviours, and how environmental factors 
-                such as location, latitude, longitude, and proximity to major urban areas relate to sighting frequency.
+                The left skewness of data indicates the amount of sightings reported within a short period of time. 
+                This indicates a higher potential of the UFO being mistaken for something else as most viewers may not 
+                had enough time to process what they were seeing. As many reports show, ufo sightings are commonly mistaken 
+                for everyday, explainable objects such as planes, lights or clouds. (BCC article)
             </p>
 
         </div>
 
+    </section>
 
+    <section class="focus-section" id="conclusion">
+        <div>
+            <h2>Main Insight</h2>
+            <h1>Based on the visualizations, Downtown Chicago is a sighting hotspot. 
+                Light-shaped UFOs have been reported there, and most sightings last less than one minute.
+            </h1>
+        </div>
+
+        <div class="space-down"> 
+            <p class="focus-title">
+                <b>However, could it be something else...?</b>
+            </p>
+            <p>
+                The team would like to note that people often mistake UFO sightings for other objects, 
+                such as airplanes, clouds, and more. Even though the next sighting could occur just around 
+                the block from your home, there is always a possibility that it may be something else. 
+                When observing a potential UFO, be sure to distinguish it from common objects before reporting the sighting.
+            </p>
+
+        </div>
         
     </section>
 
@@ -327,7 +295,6 @@
   <footer>
     <section class="footer-section">
         <img src="assets/images/footerImg.png" class="footer-bg" alt="background">
-        <h3>Beware of what's upon your head</h3>
 
     </section>
 
