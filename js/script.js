@@ -608,10 +608,10 @@ function buildBarChart(raw) {
 
   // Annotation content (customize as needed)
   const descriptions = {
-    light: "The light shape essentially is like a flash of light.",
+    light: "The light shape is like a burst of light that just flashes through really quick.",
     triangle: "Triangular sightings are often described as silent, large, and slow-moving.",
     circle: "Circular sightings are one of the classic UFO shapes, often bright and hovering.",
-    fireball: "Fireball sightings appear as glowing balls of light moving rapidly.",
+    fireball: "Fireball sightings appear as blazing balls of light moving rapidly.",
     sphere: "Spherical craft are often described as smooth, bright, and floating silently."
   };
 
@@ -677,7 +677,7 @@ function buildBarChart(raw) {
       .attr("width", x.bandwidth())
       .attr("y", y(0))
       .attr("height", 0)
-      .attr("fill", "#a9c7c9")
+      .attr("fill", "#1A3993")
       .attr("opacity", d => top5Set.has(d.shape) ? 1 : 0.45)
       .style("rx", 6)
       .style("ry", 6)
@@ -707,7 +707,7 @@ function buildBarChart(raw) {
   const panelX = width * 0.40;
   const panelY = height * 0.10;
   const panelWidth = width * 0.58;
-  const panelHeight = 180;
+  const panelHeight = 160;
 
   const panel = svg.append("g")
     .attr("class", "annotation-panel")
@@ -735,14 +735,14 @@ function buildBarChart(raw) {
   // Title + description
   const title = panel.append("text")
     .attr("x", 160)
-    .attr("y", 70)
+    .attr("y", 60)
     .attr("fill", "white")
     .style("font-size", "20px")
     .style("font-weight", 600);
 
   const body = panel.append("text")
     .attr("x", 160)
-    .attr("y", 85)
+    .attr("y", 75)
     .attr("fill", "white")
     .style("font-size", "16px")
     .style("line-height", 1.4);
@@ -803,3 +803,93 @@ function buildBarChart(raw) {
     panel.transition().duration(350).style("opacity", 1);
   });
 }
+
+// New duration histogram=============================================================
+
+d3.csv("dataset/ufo_sightings.csv").then(data => {
+
+  // Parse duration column
+  const durations = data
+    .map(d => +d["Data.Encounter duration"])
+    .filter(d => d > 0 && !isNaN(d));
+
+  // Compute 95th percentile cutoff
+  const p95 = d3.quantile(durations.slice().sort(d3.ascending), 0.95);
+  const trimmed = durations.filter(d => d <= p95);
+
+  // SVG setup
+  const svg = d3.select("#chart");
+  const width = +svg.attr("width");
+  const height = +svg.attr("height");
+  const margin = { top: 40, right: 40, bottom: 60, left: 60 };
+
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+
+  const g = svg.append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  // X scale
+  const x = d3.scaleLinear()
+    .domain([0, d3.max(trimmed)])
+    .nice()
+    .range([0, innerWidth]);
+
+  // More X-axis ticks (15 ticks)
+  const xAxis = d3.axisBottom(x)
+    .ticks(15)
+    .tickSizeOuter(0);
+
+  // Histogram bins
+  const bins = d3.bin()
+    .domain(x.domain())
+    .thresholds(40)(trimmed);
+
+  // Y scale
+  const y = d3.scaleLinear()
+    .domain([0, d3.max(bins, d => d.length)])
+    .nice()
+    .range([innerHeight, 0]);
+
+  const yAxis = d3.axisLeft(y)
+    .ticks(10)
+    .tickSizeOuter(0);
+
+  // Bars
+  g.selectAll("rect")
+    .data(bins)
+    .enter()
+    .append("rect")
+    .attr("x", d => x(d.x0))
+    .attr("y", d => y(d.length))
+    .attr("width", d => Math.max(0, x(d.x1) - x(d.x0) - 1))
+    .attr("height", d => innerHeight - y(d.length))
+    .attr("fill", "#4DA3FF");
+
+  // X Axis (white)
+  g.append("g")
+    .attr("transform", `translate(0,${innerHeight})`)
+    .call(xAxis)
+    .call(g => g.selectAll("text").attr("fill", "white"))
+    .call(g => g.selectAll("line").attr("stroke", "white"))
+    .call(g => g.selectAll("path").attr("stroke", "white"))
+    .append("text")
+      .attr("x", innerWidth / 2)
+      .attr("y", 45)
+      .attr("fill", "white")
+      .attr("text-anchor", "middle")
+      .text("Encounter Duration (seconds)");
+
+  // Y Axis (white)
+  g.append("g")
+    .call(yAxis)
+    .call(g => g.selectAll("text").attr("fill", "white"))
+    .call(g => g.selectAll("line").attr("stroke", "white"))
+    .call(g => g.selectAll("path").attr("stroke", "white"))
+    .append("text")
+      .attr("x", -40)
+      .attr("y", -20)
+      .attr("fill", "white")
+      .attr("text-anchor", "start")
+      .text("Count");
+});

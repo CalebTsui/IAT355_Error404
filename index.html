@@ -289,15 +289,18 @@
             <h1>How likely is it that UFOs are Real?
             </h1>
 
-            <label>
+            <!-- <label>
                 Y-axis scale: <input id="yScale" type="range" min="0.000001" max="1" step="0.000001" value="1">
             <span id="yScaleVal">1.0×</span>
             </label>
 
-            <div id="scatter" class="viz"></div>
+            <div id="scatter" class="viz"></div> -->
+
+              <h2>UFO Duration Histogram (Trimmed 0–95th Percentile)</h1>
+            <svg id="chart" width="900" height="500"></svg>
 
         </div>
-
+        
         <div class="space-down"> 
             <p class="focus-title">
                 <b>Based on the visualizations...</b>
@@ -315,6 +318,9 @@
 
         
     </section>
+
+        <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+        <script src="script.js"></script>
 
   </body>
 
