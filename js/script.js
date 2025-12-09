@@ -597,10 +597,10 @@ function buildBarChart(raw) {
 
   // Annotation content (customize as needed)
   const descriptions = {
-    light: "The light shape essentially is like a flash of light.",
+    light: "The light shape is like a burst of light that just flashes through really quick.",
     triangle: "Triangular sightings are often described as silent, large, and slow-moving.",
     circle: "Circular sightings are one of the classic UFO shapes, often bright and hovering.",
-    fireball: "Fireball sightings appear as glowing balls of light moving rapidly.",
+    fireball: "Fireball sightings appear as blazing balls of light moving rapidly.",
     sphere: "Spherical craft are often described as smooth, bright, and floating silently."
   };
 
@@ -696,7 +696,7 @@ function buildBarChart(raw) {
   const panelX = width * 0.40;
   const panelY = height * 0.10;
   const panelWidth = width * 0.58;
-  const panelHeight = 180;
+  const panelHeight = 160;
 
   const panel = svg.append("g")
     .attr("class", "annotation-panel")
@@ -724,14 +724,14 @@ function buildBarChart(raw) {
   // Title + description
   const title = panel.append("text")
     .attr("x", 160)
-    .attr("y", 70)
+    .attr("y", 60)
     .attr("fill", "white")
     .style("font-size", "20px")
     .style("font-weight", 600);
 
   const body = panel.append("text")
     .attr("x", 160)
-    .attr("y", 85)
+    .attr("y", 75)
     .attr("fill", "white")
     .style("font-size", "16px")
     .style("line-height", 1.4);
