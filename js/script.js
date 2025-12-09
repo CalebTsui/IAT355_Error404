@@ -412,6 +412,7 @@ fetchData().then(({ ufoClean }) => {
         disk: `Disk sightings show a Pacific Northwest skew, with notable counts in California, Washington, and Oregon. This shape is more regionally concentrated than others.`
     };
     const insightDiv = document.getElementById("shapeInsight");
+
     // Dropdown listener
     const shapeSelect = document.getElementById("shapeSelect");
     shapeSelect.addEventListener("change", () => {
@@ -461,7 +462,6 @@ d3.csv("dataset/ufo_sightings.csv").then(data => {
     d.shape = d["Data.Shape"]?.trim();
   });
 
-  buildScatterplot(data);
   buildBarChart(data);
 });
 
@@ -677,7 +677,7 @@ function buildBarChart(raw) {
       .attr("width", x.bandwidth())
       .attr("y", y(0))
       .attr("height", 0)
-      .attr("fill", "#a9c7c9")
+      .attr("fill", "#1A3993")
       .attr("opacity", d => top5Set.has(d.shape) ? 1 : 0.45)
       .style("rx", 6)
       .style("ry", 6)
