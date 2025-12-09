@@ -1,5 +1,3 @@
-console.log("hehe");
-
 async function fetchData() {
     const naMap = await fetch("dataset/usa-map.json").then(r => r.json());
     const raw = await d3.csv("dataset/ufo_sightings.csv");
@@ -18,47 +16,8 @@ async function fetchData() {
     return { naMap, ufoClean };
 }
 
-
-
-
-
 fetchData().then(async ({ naMap, ufoClean }) => {
     ufoCleanRecent = ufoClean.filter(d => d.year >= 1995)
-
-    const shapeDis = vl
-        .markRect({ stroke: "white", strokeWidth: 1 })
-        .data(ufoCleanRecent)   
-        .encode(
-            vl.y().fieldO("shape").title("UFO Shapes"),
-            vl.x().bin({step:60}).fieldO("duration").title("Duration (Sec)"),
-            vl.color().aggregate("count"),
-            vl.tooltip([
-                vl.y().fieldO("shape"),
-                vl.x().aggregate("count")
-            ])
-        )
-        .width(5000)
-        .height(480)
-        .toSpec();
-
-    const sightDur = vl
-        .markRect()
-        .data(ufoCleanRecent)
-        .encode(
-            vl.y().aggregate("count"),
-            vl.x().bin({step:20}).fieldO("duration").title("Duration (Sec)"),
-            vl.color().aggregate("count"),
-            vl.tooltip([
-                vl.x().bin({step:7200}).fieldO("duration").aggregate("count")
-            ]),
-            vl.text().bin({step:7200}).fieldO("duration").aggregate("count"),
-            )
-        .width(5000)
-        .height(480)
-        .toSpec();
-
-    render("#view4", shapeDis);
-    render("#view5", sightDur);
 
     drawTimeline(ufoClean);
 });
@@ -68,7 +27,7 @@ async function render(viewID, spec) {
   result.view.run();
 }
 
-// map visualization
+// MAP GRAPH
 
 fetchData().then(({ naMap, ufoClean }) => {
 
@@ -145,6 +104,8 @@ fetchData().then(({ naMap, ufoClean }) => {
     });
 
 });
+
+// LINE GRAPH
 
 function drawTimeline(ufoData) {
 
@@ -259,7 +220,7 @@ function drawTimeline(ufoData) {
             .style("pointer-events", "none")
             .style("box-shadow", "0px 0px 10px rgba(0,0,0,0.2)")
             .style("opacity", 0);
-
+            
         // Dots
         svg.selectAll("circle.dot")
             .data(sightingsByYear)
@@ -288,6 +249,77 @@ function drawTimeline(ufoData) {
             .on("mouseout", () => {
                 tooltip.transition().duration(200).style("opacity", 0);
             });
+
+        // annotation
+        const annotationYear = 2012;
+        const annotationX = x(annotationYear);
+
+        // Vertical dashed line at 2012
+        const annoLine = svg.append("line")
+            .attr("x1", annotationX)
+            .attr("y1", height)
+            .attr("x2", annotationX)
+            .attr("y2", 0)
+            .attr("stroke", "#ffcc66")
+            .attr("stroke-width", 2)
+            .attr("stroke-dasharray", "6 4")
+            .style("opacity", 0)
+            .transition()
+            .delay(2000) // same time dots appear
+            .duration(600)
+            .style("opacity", 1);
+
+        // Annotation box group
+        const annoGroup = svg.append("g")
+            .attr("transform", `translate(${annotationX - 345}, ${y(6000) -50})`)
+            .style("opacity", 0);
+
+        // Background rounded rectangle
+        annoGroup.append("rect")
+            .attr("width", 325)
+            .attr("height", 105)
+            .attr("rx", 12)
+            .attr("fill", "#101520")
+            .attr("stroke", "#233044")
+            .attr("stroke-width", 1.5)
+            .attr("opacity", 0.92);
+
+        // Text content
+        annoGroup.append("text")
+            .attr("x", 15)
+            .attr("y", 25)
+            .attr("fill", "white")
+            .style("font-size", "14px")
+            .style("font-weight", "400")
+            .text("The U.S. government's secretive UFO program,");
+
+        annoGroup.append("text")
+            .attr("x", 15)
+            .attr("y", 45)
+            .attr("fill", "white")
+            .style("font-size", "14px")
+            .text("Advanced Aerospace Threat Identification Program");
+
+        annoGroup.append("text")
+            .attr("x", 15)
+            .attr("y", 65)
+            .attr("fill", "white")
+            .style("font-size", "14px")
+            .text("(AATIP), officially ended in 2012, which may be");
+
+        annoGroup.append("text")
+            .attr("x", 15)
+            .attr("y", 85)
+            .attr("fill", "white")
+            .style("font-size", "14px")
+            .text("linked to the potential increase in sightings.");
+
+        // Fade in box with dots
+        annoGroup.transition()
+            .delay(2000)
+            .duration(600)
+            .style("opacity", 1);
+
 
         // user guess
         const guessedData = sightingsByYear.find(d => d.year === guessedYear);
@@ -356,7 +388,9 @@ function drawTimeline(ufoData) {
         svg.selectAll(".domain").style("stroke", "white");
         svg.selectAll(".tick line").style("stroke", "white");
     }
+
 }
+
 
 fetchData().then(({ ufoClean }) => {
 
@@ -535,14 +569,11 @@ function buildScatterplot(data) {
       .attr("cy", d => zy(d.duration));
   }
 
-  // ensure initial layout respects slider value
   applyYScaleAndRedraw();
 }
 
-/* ============================
-   VISUALIZATION 2 — BAR CHART
-   (all shapes; top 5 highlighted)
-   ============================ */
+// BAR CHART
+
 function buildBarChart(raw) {
   const container = d3.select("#bars");
   container.selectAll("*").remove();
@@ -550,24 +581,33 @@ function buildBarChart(raw) {
   const width = 900, height = 480;
   const margin = { top: 20, right: 20, bottom: 120, left: 80 };
 
-  // clean shapes
+  // Clean shapes
   const shapes = raw
     .map(d => (d["Data.Shape"] || "").trim())
     .filter(s => s && s.toLowerCase() !== "unknown" && s.toLowerCase() !== "other");
 
-  // counts
+  // Count occurrences
   const counts = Array.from(
     d3.rollup(shapes, v => v.length, d => d),
-    ([shape, count]) => ({shape, count})
+    ([shape, count]) => ({ shape, count })
   ).sort((a, b) => d3.descending(a.count, b.count));
 
-  const top5Set = new Set(counts.slice(0, 5).map(d => d.shape));
+  const top5 = counts.slice(0, 5).map(d => d.shape);
+  const top5Set = new Set(top5);
+
+  // Annotation content (customize as needed)
+  const descriptions = {
+    light: "The light shape essentially is like a flash of light.",
+    triangle: "Triangular sightings are often described as silent, large, and slow-moving.",
+    circle: "Circular sightings are one of the classic UFO shapes, often bright and hovering.",
+    fireball: "Fireball sightings appear as glowing balls of light moving rapidly.",
+    sphere: "Spherical craft are often described as smooth, bright, and floating silently."
+  };
 
   // SVG
   const svg = container.append("svg")
     .attr("width", width)
-    .attr("height", height)
-    .style("background", "#0c0f14");
+    .attr("height", height);
 
   const x = d3.scaleBand()
     .domain(counts.map(d => d.shape))
@@ -578,19 +618,8 @@ function buildBarChart(raw) {
     .domain([0, d3.max(counts, d => d.count) || 1]).nice()
     .range([height - margin.bottom, margin.top]);
 
-  // SHADOW defs (default)
+  // glow
   const defs = svg.append("defs");
-  const filter = defs.append("filter")
-    .attr("id", "shadow")
-    .attr("height", "150%");
-  filter.append("feDropShadow")
-    .attr("dx", 0)
-    .attr("dy", 3)
-    .attr("stdDeviation", 4)
-    .attr("flood-color", "#000")
-    .attr("flood-opacity", 0.35);
-
-  // GLOW (FOR TOP 5)
   const glow = defs.append("filter")
     .attr("id", "glow");
   glow.append("feDropShadow")
@@ -600,10 +629,10 @@ function buildBarChart(raw) {
     .attr("flood-color", "#a9c7c9")
     .attr("flood-opacity", 0.85);
 
-  // AXES
+  // Axes
   const xAxis = svg.append("g")
     .attr("transform", `translate(0, ${height - margin.bottom})`)
-    .style("opacity", 0)             // fade-in start
+    .style("opacity", 0)
     .call(d3.axisBottom(x).tickSize(0))
     .call(g => g.select(".domain").remove());
 
@@ -616,7 +645,7 @@ function buildBarChart(raw) {
 
   const yAxis = svg.append("g")
     .attr("transform", `translate(${margin.left},0)`)
-    .style("opacity", 0)             // fade-in start
+    .style("opacity", 0)
     .call(d3.axisLeft(y).ticks(6).tickSize(0))
     .call(g => g.select(".domain").remove());
 
@@ -624,19 +653,11 @@ function buildBarChart(raw) {
     .style("fill", "white")
     .style("font-size", "14px");
 
-  // === AXIS FADE + SLIDE ANIMATION ===
-  xAxis.transition()
-    .delay(600)
-    .duration(800)
-    .style("opacity", 1)
-    .attr("transform", `translate(0, ${height - margin.bottom})`);
+  // Fade in
+  xAxis.transition().delay(600).duration(800).style("opacity", 1);
+  yAxis.transition().delay(600).duration(800).style("opacity", 1);
 
-  yAxis.transition()
-    .delay(600)
-    .duration(800)
-    .style("opacity", 1);
-
-  // === BARS (with animation start states) ===
+  // Bars
   const bars = svg.append("g")
     .selectAll("rect")
     .data(counts)
@@ -649,19 +670,17 @@ function buildBarChart(raw) {
       .attr("opacity", d => top5Set.has(d.shape) ? 1 : 0.45)
       .style("rx", 6)
       .style("ry", 6)
-      .attr("filter", "url(#shadow)")
-      .style("transition", "all 0.25s ease-out");   // smooth color + transform transitions
+      .style("cursor", d => top5Set.has(d.shape) ? "pointer" : "default");
 
-  // === BAR INTRO ANIMATION ===
+  // Grow animation
   bars.transition()
-    .delay((d,i)=> i*60)
+    .delay((d, i) => i * 60)
     .duration(900)
     .ease(d3.easeCubicOut)
     .attr("y", d => y(d.count))
     .attr("height", d => y(0) - y(d.count));
 
-
-  // LABEL “Reports”
+  // Label bottom
   svg.append("text")
     .attr("x", width / 2)
     .attr("y", height - 35)
@@ -670,8 +689,106 @@ function buildBarChart(raw) {
     .style("font-size", "18px")
     .text("Shapes")
     .style("opacity", 0)
-    .transition()
-      .delay(500)
-      .duration(700)
-      .style("opacity", 1);
+    .transition().delay(500).duration(700).style("opacity", 1);
+
+  // annotation
+
+  const panelX = width * 0.40;
+  const panelY = height * 0.10;
+  const panelWidth = width * 0.58;
+  const panelHeight = 180;
+
+  const panel = svg.append("g")
+    .attr("class", "annotation-panel")
+    .attr("transform", `translate(${panelX}, ${panelY})`)
+    .style("opacity", 0);
+
+  // Background rounded rectangle
+  panel.append("rect")
+    .attr("width", panelWidth)
+    .attr("height", panelHeight)
+    .attr("rx", 22)
+    .attr("ry", 22)
+    .attr("fill", "#141927")
+    .attr("stroke", "#2c354f")
+    .attr("stroke-width", 2)
+    .attr("opacity", 0.92);
+
+  // Circle icon
+  const circle = panel.append("circle")
+    .attr("cx", 80)
+    .attr("cy", panelHeight / 2)
+    .attr("r", 58)
+    .attr("fill", "#d6d6d6");
+
+  // Title + description
+  const title = panel.append("text")
+    .attr("x", 160)
+    .attr("y", 70)
+    .attr("fill", "white")
+    .style("font-size", "20px")
+    .style("font-weight", 600);
+
+  const body = panel.append("text")
+    .attr("x", 160)
+    .attr("y", 85)
+    .attr("fill", "white")
+    .style("font-size", "16px")
+    .style("line-height", 1.4);
+
+  // Word wrapping helper
+  function wrapText(textSel, text, width) {
+  const words = text.split(/\s+/); 
+  let line = [];
+  let lineNumber = 0;
+  const lineHeight = 1.2; // em units
+
+  textSel.text(null);
+
+  let tspan = textSel.append("tspan")
+    .attr("x", 160)
+    .attr("dy", "1.2em");
+
+  words.forEach(word => {
+    const testLine = [...line, word].join(" ");
+
+    tspan.text(testLine);
+
+    // If too wide → commit previous line and start a new one
+    if (tspan.node().getComputedTextLength() > width) {
+
+      // Write *previous* line
+      tspan.text(line.join(" "));
+
+      // Start new line with the current word
+      line = [word];
+
+      tspan = textSel.append("tspan")
+        .attr("x", 160)
+        .attr("dy", lineHeight + "em")
+        .text(word);
+    } else {
+      // Safe to add the word
+      line.push(word);
+    }
+  });
+}
+
+  let selected = null;
+
+  // Bar clicking function 
+
+  bars.on("click", (event, d) => {
+    if (!top5Set.has(d.shape)) return;
+
+    selected = d.shape;
+
+    bars.attr("filter", null);
+    d3.select(event.currentTarget).attr("filter", "url(#glow)");
+
+    title.text(`Shape: ${d.shape.charAt(0).toUpperCase() + d.shape.slice(1)}`);
+    wrapText(body, descriptions[d.shape], panelWidth - 200);
+
+    panel.transition().duration(350).style("opacity", 1);
+  });
 }
