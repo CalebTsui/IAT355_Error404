@@ -403,6 +403,15 @@ fetchData().then(({ ufoClean }) => {
     let markers = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 60});
     shapeMap.addLayer(markers);
 
+    // Insights
+    const shapeInsights = {
+        light: `Light sightings are the most common and follow population density. High concentrations in California, Florida, Washington, and New York reflect overall reporting volume rather than a shape-specific hotspot.`,
+        circle: `Circle sightings are numerically high in West Coast states (California, Washington) though the Northeast may appear denser on the map due to geographic compression. California leads in total circle reports.`,
+        triangle: `Triangle sightings are relatively common in Texas, Washington, Arizona, Ohio, and Pennsylvania. These inland concentrations overlap with major aviation and military flight corridors and merit further investigation.`,
+        fireball: `Fireball sightings cluster in California, Florida, Washington, Arizona, and Texas. The pattern reflects both clear-sky viewing conditions in the West and large coastal populations reporting meteors or bright atmospheric events.`,
+        disk: `Disk sightings show a Pacific Northwest skew, with notable counts in California, Washington, and Oregon. This shape is more regionally concentrated than others.`
+    };
+    const insightDiv = document.getElementById("shapeInsight");
     // Dropdown listener
     const shapeSelect = document.getElementById("shapeSelect");
     shapeSelect.addEventListener("change", () => {
@@ -413,7 +422,7 @@ fetchData().then(({ ufoClean }) => {
     // Update function
     function updateShapeMap(shape) {
         markers.clearLayers();
-        const filtered = ufoClean.filter(d => d.shape === shape);
+        const filtered = ufoClean.filter(d => d.shape.toLowerCase() === shape.toLowerCase());
         filtered.forEach(d => {
             if (!isNaN(d.lat) && !isNaN(d.lon)) {
                 const marker = L.circleMarker([d.lat, d.lon], {
@@ -429,8 +438,10 @@ fetchData().then(({ ufoClean }) => {
                 markers.addLayer(marker);
             }
         });
-        if (markers.getLayers().length > 0) {
-            shapeMap.fitBounds(markers.getBounds(), { padding: [40, 40]});
+        if (shapeInsights[shape]) {
+             insightDiv.innerText = shapeInsights[shape];
+        } else {
+             insightDiv.innerText = `No prewritten insight available for "${shape}".`;
         }
     }
     updateShapeMap(shapeSelect.value);
