@@ -279,9 +279,9 @@ function drawTimeline(ufoData) {
             .attr("width", 325)
             .attr("height", 105)
             .attr("rx", 12)
-            .attr("fill", "#101520")
-            .attr("stroke", "#233044")
-            .attr("stroke-width", 1.5)
+            .attr("fill", "#141927")
+            .attr("stroke", "#2c354f")
+            .attr("stroke-width", 2)
             .attr("opacity", 0.92);
 
         // Text content
@@ -677,7 +677,7 @@ function buildBarChart(raw) {
       .attr("width", x.bandwidth())
       .attr("y", y(0))
       .attr("height", 0)
-      .attr("fill", "#1A3993")
+      .attr("fill", "#a9c7c9")
       .attr("opacity", d => top5Set.has(d.shape) ? 1 : 0.45)
       .style("rx", 6)
       .style("ry", 6)
