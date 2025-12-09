@@ -550,23 +550,24 @@ function buildBarChart(raw) {
   const width = 900, height = 480;
   const margin = { top: 20, right: 20, bottom: 120, left: 80 };
 
-  // clean shapes, exclude "unknown" and "other"
+  // clean shapes
   const shapes = raw
     .map(d => (d["Data.Shape"] || "").trim())
     .filter(s => s && s.toLowerCase() !== "unknown" && s.toLowerCase() !== "other");
 
-  // count occurrences
-  const counts = Array.from(d3.rollup(shapes, v => v.length, d => d), ([shape, count]) => ({shape, count}));
+  // counts
+  const counts = Array.from(
+    d3.rollup(shapes, v => v.length, d => d),
+    ([shape, count]) => ({shape, count})
+  ).sort((a, b) => d3.descending(a.count, b.count));
 
-  // sort descending by count
-  counts.sort((a, b) => d3.descending(a.count, b.count));
-
-  // compute top 5 shapes
   const top5Set = new Set(counts.slice(0, 5).map(d => d.shape));
 
   // SVG
-  const svg = container.append("svg").attr("width", width).attr("height", height)
-    .style("border", "1px solid #ddd").style("background", "#fff");
+  const svg = container.append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .style("background", "#0c0f14");
 
   const x = d3.scaleBand()
     .domain(counts.map(d => d.shape))
@@ -577,39 +578,100 @@ function buildBarChart(raw) {
     .domain([0, d3.max(counts, d => d.count) || 1]).nice()
     .range([height - margin.bottom, margin.top]);
 
-  // axes
-  const xg = svg.append("g")
+  // SHADOW defs (default)
+  const defs = svg.append("defs");
+  const filter = defs.append("filter")
+    .attr("id", "shadow")
+    .attr("height", "150%");
+  filter.append("feDropShadow")
+    .attr("dx", 0)
+    .attr("dy", 3)
+    .attr("stdDeviation", 4)
+    .attr("flood-color", "#000")
+    .attr("flood-opacity", 0.35);
+
+  // GLOW (FOR TOP 5)
+  const glow = defs.append("filter")
+    .attr("id", "glow");
+  glow.append("feDropShadow")
+    .attr("dx", 0)
+    .attr("dy", 0)
+    .attr("stdDeviation", 8)
+    .attr("flood-color", "#a9c7c9")
+    .attr("flood-opacity", 0.85);
+
+  // AXES
+  const xAxis = svg.append("g")
     .attr("transform", `translate(0, ${height - margin.bottom})`)
-    .call(d3.axisBottom(x))
-    .selectAll("text")
-      .attr("transform", "rotate(-45)")
-      .style("text-anchor", "end");
+    .style("opacity", 0)             // fade-in start
+    .call(d3.axisBottom(x).tickSize(0))
+    .call(g => g.select(".domain").remove());
 
-  svg.append("g")
+  xAxis.selectAll("text")
+    .attr("transform", "rotate(-45)")
+    .attr("text-anchor", "end")
+    .attr("dy", "0.4em")
+    .style("fill", "white")
+    .style("font-size", "15px");
+
+  const yAxis = svg.append("g")
     .attr("transform", `translate(${margin.left},0)`)
-    .call(d3.axisLeft(y).ticks(6));
+    .style("opacity", 0)             // fade-in start
+    .call(d3.axisLeft(y).ticks(6).tickSize(0))
+    .call(g => g.select(".domain").remove());
 
-  // bars
-  svg.append("g")
+  yAxis.selectAll("text")
+    .style("fill", "white")
+    .style("font-size", "14px");
+
+  // === AXIS FADE + SLIDE ANIMATION ===
+  xAxis.transition()
+    .delay(600)
+    .duration(800)
+    .style("opacity", 1)
+    .attr("transform", `translate(0, ${height - margin.bottom})`);
+
+  yAxis.transition()
+    .delay(600)
+    .duration(800)
+    .style("opacity", 1);
+
+  // === BARS (with animation start states) ===
+  const bars = svg.append("g")
     .selectAll("rect")
     .data(counts)
     .join("rect")
       .attr("x", d => x(d.shape))
-      .attr("y", d => y(d.count))
-      .attr("width", d => x.bandwidth())
-      .attr("height", d => y(0) - y(d.count))
-      .attr("fill", "steelblue")
-      .attr("opacity", d => top5Set.has(d.shape) ? 1 : 0.25);
+      .attr("width", x.bandwidth())
+      .attr("y", y(0))
+      .attr("height", 0)
+      .attr("fill", "#a9c7c9")
+      .attr("opacity", d => top5Set.has(d.shape) ? 1 : 0.45)
+      .style("rx", 6)
+      .style("ry", 6)
+      .attr("filter", "url(#shadow)")
+      .style("transition", "all 0.25s ease-out");   // smooth color + transform transitions
 
-  // optional: add value labels on top of top 5 bars
-  svg.append("g")
-    .selectAll("text.count")
-    .data(counts.filter(d => top5Set.has(d.shape)))
-    .join("text")
-      .attr("class", "count")
-      .attr("x", d => x(d.shape) + x.bandwidth()/2)
-      .attr("y", d => y(d.count) - 6)
-      .attr("text-anchor", "middle")
-      .attr("font-size", 11)
-      .text(d => d.count);
+  // === BAR INTRO ANIMATION ===
+  bars.transition()
+    .delay((d,i)=> i*60)
+    .duration(900)
+    .ease(d3.easeCubicOut)
+    .attr("y", d => y(d.count))
+    .attr("height", d => y(0) - y(d.count));
+
+
+  // LABEL “Reports”
+  svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", height - 35)
+    .attr("text-anchor", "middle")
+    .style("fill", "white")
+    .style("font-size", "18px")
+    .text("Shapes")
+    .style("opacity", 0)
+    .transition()
+      .delay(500)
+      .duration(700)
+      .style("opacity", 1);
 }
