@@ -290,6 +290,7 @@ nav a {
 .prologue-img {
     width: 20%;
     margin-bottom: -1rem;
+    animation: floatDown   6s ease-in-out infinite;
 }
 
 /* Visualization Section */
@@ -344,6 +345,7 @@ nav a {
 .timeline-img {
     width: 25%;
     margin-bottom: -1rem;
+    animation: floatDown   6s ease-in-out infinite;
 }
 
 #guessContainer {
@@ -592,32 +594,12 @@ nav a {
     border-radius: 1rem;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
+    
 }
 
 .conclude-down {
     margin-bottom: 8rem;
 }
-
-.conclusion {
-    width: 60%;
-    margin: 0 auto 3rem auto;
-    padding-top: 2rem;
-}
-
-.conclusion h1 {
-    margin-bottom: 5rem;
-}
-
-.conclusion h2 {
-    font-family: 'Assistant', sans-serif;
-    font-weight: 400;
-    font-size: 2rem;
-    margin-bottom: -1rem;
-    color: #FFFFFF;
-}
-
-
-/* map visualization *
 
 /* Footer */
 
@@ -659,13 +641,7 @@ footer h3 {
     z-index: -1;
 }
 
-.scroll-container {
-    width: 850px;       
-    overflow-x: auto;   
-    
-}
-
-  #chart {
+#chart {
   width: 900px;
   height: 500px;
 }
