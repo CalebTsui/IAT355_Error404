@@ -523,6 +523,13 @@ function buildBarChart(raw) {
     sphere: "Spherical craft are often described as smooth, bright, and floating silently."
   };
 
+  const shapeIcons = {
+    light: "assets/images/light.png",
+    triangle: "assets/images/triangle.png",
+    circle: "assets/images/circle.png",
+    fireball: "assets/images/fireball.png",
+    sphere: "assets/images/sphere.png"
+  };
   // SVG
   const svg = container.append("svg")
     .attr("width", width)
@@ -629,6 +636,7 @@ function buildBarChart(raw) {
     .attr("y", d => y(d.count))
     .attr("height", d => y(0) - y(d.count));
 
+    
   // Label bottom
   svg.append("text")
     .attr("x", width / 2)
@@ -647,6 +655,14 @@ function buildBarChart(raw) {
   const panelWidth = width * 0.58;
   const panelHeight = 160;
 
+  defs.append("clipPath")
+    .attr("id", "shapeClip")
+    .append("circle")
+    .attr("cx", 80)
+    .attr("cy", panelHeight / 2)
+    .attr("r", 58);
+  
+
   const panel = svg.append("g")
     .attr("class", "annotation-panel")
     .attr("transform", `translate(${panelX}, ${panelY})`)
@@ -663,12 +679,14 @@ function buildBarChart(raw) {
     .attr("stroke-width", 2)
     .attr("opacity", 0.92);
 
-  // Circle icon
-  const circle = panel.append("circle")
-    .attr("cx", 80)
-    .attr("cy", panelHeight / 2)
-    .attr("r", 58)
-    .attr("fill", "#d6d6d6");
+  const icon = panel.append("image")
+  .attr("x", 80 - 58)
+  .attr("y", panelHeight / 2 - 58)
+  .attr("width", 116)
+  .attr("height", 116)
+  .attr("href", "images/default.png")
+
+  
 
   // Title + description
   const title = panel.append("text")
@@ -691,6 +709,8 @@ function buildBarChart(raw) {
     .attr("fill", "#A7B2CE")
     .style("font-size", "16px")
     .style("font-weight", 500);
+
+  
 
   // Word wrapping helper
   function wrapText(textSel, text, width) {
@@ -744,6 +764,7 @@ function buildBarChart(raw) {
 
     title.text(`Shape: ${d.shape.charAt(0).toUpperCase() + d.shape.slice(1)}`);
     countText.text(`Total Sightings: ${d.count}`);
+    icon.attr("href", shapeIcons[d.shape] || "images/default.png");
     wrapText(body, descriptions[d.shape], panelWidth - 200);
 
     panel.transition().duration(350).style("opacity", 1);
