@@ -27,15 +27,13 @@ async function render(viewID, spec) {
   result.view.run();
 }
 
-// MAP GRAPH
-
 fetchData().then(({ naMap, ufoClean }) => {
 
-    // Limit data from 2005–2014
-    const minYear = 2005;
+    // Limit data from 1995–2014
+    const minYear = 1995;
     const maxYear = 2014;
 
-    // Keep only specific yeaer
+    // Keep only specific years
     const ufoFiltered = ufoClean.filter(d => d.year >= minYear && d.year <= maxYear);
 
     // Initialize map
@@ -87,23 +85,26 @@ fetchData().then(({ naMap, ufoClean }) => {
         }
     }
 
-
     // slider
     const slider = document.getElementById("yearSlider");
+    slider.min = minYear;        // set slider min
+    slider.max = maxYear;        // set slider max
+    slider.value = minYear;      // initial value
+
     const yearLabel = document.getElementById("yearLabel");
+    yearLabel.innerHTML = `<b>Showing up to year: ${minYear}</b>`;
+
+    slider.addEventListener("input", () => {
+        const selectedYear = parseInt(slider.value);
+        yearLabel.innerHTML = `<b>Showing up to year: ${selectedYear}</b>`;
+        updateMap(selectedYear);
+    });
 
     // Initial load
     updateMap(minYear);
 
-    slider.addEventListener("input", () => {
-        const selectedYear = parseInt(slider.value);
-
-        yearLabel.innerHTML = `<b>Showing up to year: ${selectedYear}</b>`;
-
-        updateMap(selectedYear);
-    });
-
 });
+
 
 // LINE GRAPH
 
@@ -118,7 +119,7 @@ function drawTimeline(ufoData) {
     const guessError = document.getElementById("guessError");
 
     // Acceptable range (adjust as needed)
-    const minYear = 2005;
+    const minYear = 1995;
     const maxYear = 2014;
 
     guessBtn.onclick = () => {
@@ -142,7 +143,7 @@ function drawTimeline(ufoData) {
     // line 
     function renderTimeline(guessedYear) {
         const currentYear = new Date().getFullYear();
-        const filtered = ufoData.filter(d => d.year >= currentYear - 20);
+        const filtered = ufoData.filter(d => d.year >= currentYear - 30);
 
         // Aggregate by year
         const sightingsByYear = d3.rollups(
@@ -195,7 +196,7 @@ function drawTimeline(ufoData) {
         const linePath = svg.append("path")
             .datum(sightingsByYear)
             .attr("fill", "none")
-            .attr("stroke", "#4b79ff")
+            .attr("stroke", "#374ABC")
             .attr("stroke-width", 2.5)
             .attr("d", line);
 
@@ -230,7 +231,7 @@ function drawTimeline(ufoData) {
             .attr("cx", d => x(d.year))
             .attr("cy", d => y(d.count))
             .attr("r", 5)
-            .attr("fill", "#ff3b3b")
+            .attr("fill", "#7DCBCD")
             .style("opacity", 0)
             .transition()
             .delay(2000)
@@ -260,23 +261,23 @@ function drawTimeline(ufoData) {
             .attr("y1", height)
             .attr("x2", annotationX)
             .attr("y2", 0)
-            .attr("stroke", "#ffcc66")
+            .attr("stroke", "#E8EB77")
             .attr("stroke-width", 2)
             .attr("stroke-dasharray", "6 4")
             .style("opacity", 0)
             .transition()
-            .delay(2000) // same time dots appear
+            .delay(2000) 
             .duration(600)
             .style("opacity", 1);
 
         // Annotation box group
         const annoGroup = svg.append("g")
-            .attr("transform", `translate(${annotationX - 345}, ${y(6000) -50})`)
+            .attr("transform", `translate(${annotationX - 270}, ${y(6000) -50})`)
             .style("opacity", 0);
 
         // Background rounded rectangle
         annoGroup.append("rect")
-            .attr("width", 325)
+            .attr("width", 250)
             .attr("height", 105)
             .attr("rx", 12)
             .attr("fill", "#141927")
@@ -284,35 +285,37 @@ function drawTimeline(ufoData) {
             .attr("stroke-width", 2)
             .attr("opacity", 0.92);
 
+
+
         // Text content
         annoGroup.append("text")
-            .attr("x", 15)
+            .attr("x", 18)
             .attr("y", 25)
             .attr("fill", "white")
             .style("font-size", "14px")
             .style("font-weight", "400")
-            .text("The U.S. government's secretive UFO program,");
+            .text("2012 shows a significant peak with");
 
         annoGroup.append("text")
-            .attr("x", 15)
+            .attr("x", 18)
             .attr("y", 45)
             .attr("fill", "white")
             .style("font-size", "14px")
-            .text("Advanced Aerospace Threat Identification Program");
+            .text("6,096 reports, marking an increase of");
 
         annoGroup.append("text")
-            .attr("x", 15)
+            .attr("x", 18)
             .attr("y", 65)
             .attr("fill", "white")
             .style("font-size", "14px")
-            .text("(AATIP), officially ended in 2012, which may be");
+            .text("over 2,000 sightings compared to");
 
-        annoGroup.append("text")
-            .attr("x", 15)
+            annoGroup.append("text")
+            .attr("x", 18)
             .attr("y", 85)
             .attr("fill", "white")
             .style("font-size", "14px")
-            .text("linked to the potential increase in sightings.");
+            .text("previous years.");
 
         // Fade in box with dots
         annoGroup.transition()
@@ -356,10 +359,10 @@ function drawTimeline(ufoData) {
             // Label
             svg.append("text")
                 .attr("x", x(guessedYear))
-                .attr("y", y(guessedData.count) - 15)
+                .attr("y", y(guessedData.count) - 25)
                 .attr("text-anchor", "middle")
                 .attr("fill", "gold")
-                .style("font-size", "13px")
+                .style("font-size", "16px")
                 .text("Your guess")
                 .style("opacity", 0)
                 .transition()
@@ -400,8 +403,16 @@ fetchData().then(({ ufoClean }) => {
         attribution: "&copy; OpenStreetMap contributors"
     }).addTo(shapeMap);
 
-    let markers = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 60});
+    let markers = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 60 });
     shapeMap.addLayer(markers);
+
+    const minYear = 1995;
+    const maxYear = 2014;
+
+    const ufoRange = ufoClean.filter(d =>
+        d.year >= minYear && d.year <= maxYear
+    );
+    // -------------------------
 
     // Insights
     const shapeInsights = {
@@ -420,10 +431,13 @@ fetchData().then(({ ufoClean }) => {
         updateShapeMap(selectedShape);
     });
 
-    // Update function
     function updateShapeMap(shape) {
         markers.clearLayers();
-        const filtered = ufoClean.filter(d => d.shape.toLowerCase() === shape.toLowerCase());
+
+        const filtered = ufoRange.filter(
+            d => d.shape.toLowerCase() === shape.toLowerCase()
+        );
+
         filtered.forEach(d => {
             if (!isNaN(d.lat) && !isNaN(d.lon)) {
                 const marker = L.circleMarker([d.lat, d.lon], {
@@ -433,155 +447,49 @@ fetchData().then(({ ufoClean }) => {
                     weight: 1,
                     fillOpacity: 0.9
                 });
-                marker.bindPopup(`<b>${d.city}, ${d.state}</b><br>
+
+                marker.bindPopup(`
+                    <b>${d.city}, ${d.state}</b><br>
                     <b>Year:</b> ${d.year}<br>
-                    <b>Duration:</b> ${d.duration} sec`);
+                    <b>Duration:</b> ${d.duration} sec
+                `);
+
                 markers.addLayer(marker);
             }
         });
+
         if (shapeInsights[shape]) {
-             insightDiv.innerText = shapeInsights[shape];
+            insightDiv.innerText = shapeInsights[shape];
         } else {
-             insightDiv.innerText = `No prewritten insight available for "${shape}".`;
+            insightDiv.innerText = `No prewritten insight available for "${shape}".`;
         }
     }
+    
     updateShapeMap(shapeSelect.value);
-})
+});
+
 
 
 //neal stuff
 
-// visualization loading data=============================================================
+// visualization loading data
 
 d3.csv("dataset/ufo_sightings.csv").then(data => {
 
   // Convert numeric fields
   data.forEach(d => {
-    d.year = +d["Dates.Documented.Year"];
+    d.year = +d["Dates.Sighted.Year"];   
     d.duration = +d["Data.Encounter duration"];
     d.shape = d["Data.Shape"]?.trim();
   });
 
-  buildBarChart(data);
+  // Filter based on sighted year instead of documented year
+  const filtered = data.filter(d => d.year >= 1995 && d.year <= 2014);  
+
+  buildBarChart(filtered);
 });
 
-// visualization functions=============================================================
-
-/* =========================
-   VISUALIZATION 1 — SCATTER
-   ========================= */
-function buildScatterplot(data) {
-  const container = d3.select("#scatter");
-  container.selectAll("*").remove();
-
-  const width = 900, height = 520;
-  const margin = { top: 20, right: 20, bottom: 50, left: 70 };
-
-  const svg = container.append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .style("border", "1px solid #ddd")
-    .style("background", "#fff");
-
-  // base scales (untransformed)
-  const x0 = d3.scaleLinear()
-    .domain(d3.extent(data, d => d.year)).nice()
-    .range([margin.left, width - margin.right]);
-
-  const maxDuration = d3.max(data, d => d.duration);
-  const y0 = d3.scaleLinear()
-    .domain([0, maxDuration]).nice()
-    .range([height - margin.bottom, margin.top]);
-
-  // axis groups
-  const gx = svg.append("g").attr("class", "x axis")
-    .attr("transform", `translate(0, ${height - margin.bottom})`);
-  const gy = svg.append("g").attr("class", "y axis")
-    .attr("transform", `translate(${margin.left},0)`);
-
-  // plot group
-  const dotsG = svg.append("g").attr("class", "dots");
-
-  // initial axis draw
-  gx.call(d3.axisBottom(x0).ticks(10, "d"));
-  gy.call(d3.axisLeft(y0).ticks(8));
-
-  // create circles bound to data
-  dotsG.selectAll("circle")
-    .data(data)
-    .join("circle")
-      .attr("cx", d => x0(d.year))
-      .attr("cy", d => y0(d.duration))
-      .attr("r", 3)
-      .attr("fill", "steelblue")
-      .attr("opacity", 0.8);
-
-  // zoom behavior
-  const zoom = d3.zoom()
-    .scaleExtent([1, 40])
-    .translateExtent([[0, 0], [width, height]])
-    .extent([[margin.left, margin.top], [width - margin.right, height - margin.bottom]])
-    .on("zoom", zoomed);
-
-  svg.call(zoom);
-
-  // Slider controls the y-domain multiplier (applied to the max value)
-  const slider = document.getElementById("yScale");
-  const sliderLabel = document.getElementById("yScaleVal");
-  slider.addEventListener("input", () => {
-    sliderLabel.textContent = (+slider.value).toFixed(1) + "×";
-    applyYScaleAndRedraw();
-  });
-
-  // applyYScaleAndRedraw respects the current transform so zoom isn't lost
-  function applyYScaleAndRedraw() {
-    const factor = +slider.value;
-
-    // new base y scale with scaled domain max
-    const yScaled = d3.scaleLinear()
-      .domain([0, (maxDuration || 1) * factor]).nice()
-      .range([height - margin.bottom, margin.top]);
-
-    // preserve current zoom transform so view doesn't jump when slider changes
-    const t = d3.zoomTransform(svg.node());
-    const zx = t.rescaleX(x0);
-    const zy = t.rescaleY(yScaled);
-
-    // update axes and dots using rescaled axes (so zoom + slider compose)
-    gx.call(d3.axisBottom(zx).ticks(10, "d"));
-    gy.call(d3.axisLeft(zy).ticks(8));
-
-    dotsG.selectAll("circle")
-      .attr("cx", d => zx(d.year))
-      .attr("cy", d => zy(d.duration));
-  }
-
-  // initial call to set slider label
-  sliderLabel.textContent = (+slider.value).toFixed(1) + "×";
-
-  // zoom handler
-  function zoomed(event) {
-    // When zooming, we must recompute the rescaled axes from the current base scales.
-    // The base y scale must incorporate the current slider factor.
-    const factor = +slider.value;
-    const yScaled = d3.scaleLinear()
-      .domain([0, (maxDuration || 1) * factor/10]).nice()
-      .range([height - margin.bottom, margin.top]);
-
-    const t = event.transform;
-    const zx = t.rescaleX(x0);
-    const zy = t.rescaleY(yScaled);
-
-    gx.call(d3.axisBottom(zx).ticks(10, "d"));
-    gy.call(d3.axisLeft(zy).ticks(8));
-
-    dotsG.selectAll("circle")
-      .attr("cx", d => zx(d.year))
-      .attr("cy", d => zy(d.duration));
-  }
-
-  applyYScaleAndRedraw();
-}
+// visualization functions
 
 // BAR CHART
 
@@ -644,9 +552,13 @@ function buildBarChart(raw) {
   const xAxis = svg.append("g")
     .attr("transform", `translate(0, ${height - margin.bottom})`)
     .style("opacity", 0)
-    .call(d3.axisBottom(x).tickSize(0))
-    .call(g => g.select(".domain").remove());
+    .call(
+      d3.axisBottom(x)
+        .tickSize(6)       // tick mark length
+        .tickPadding(10)
+    );
 
+  // X-axis label styling
   xAxis.selectAll("text")
     .attr("transform", "rotate(-45)")
     .attr("text-anchor", "end")
@@ -654,15 +566,41 @@ function buildBarChart(raw) {
     .style("fill", "white")
     .style("font-size", "15px");
 
+  // X-axis tick marks
+  xAxis.selectAll("line")
+    .style("stroke", "#ffffff")
+    .style("stroke-width", 1);
+
+  // X-axis line
+  xAxis.selectAll("path")
+    .style("stroke", "#ffffff")
+    .style("stroke-width", 1);
+
+
   const yAxis = svg.append("g")
     .attr("transform", `translate(${margin.left},0)`)
     .style("opacity", 0)
-    .call(d3.axisLeft(y).ticks(6).tickSize(0))
-    .call(g => g.select(".domain").remove());
+    .call(
+      d3.axisLeft(y)
+        .ticks(6)
+        .tickSize(6)
+        .tickPadding(10)
+    );
 
+  // Y-axis label styling
   yAxis.selectAll("text")
     .style("fill", "white")
     .style("font-size", "14px");
+
+  // Y-axis tick marks
+  yAxis.selectAll("line")
+    .style("stroke", "#ffffff")
+    .style("stroke-width", 1);
+
+  // Y-axis line
+  yAxis.selectAll("path")
+    .style("stroke", "#ffffff")
+    .style("stroke-width", 1);
 
   // Fade in
   xAxis.transition().delay(600).duration(800).style("opacity", 1);
@@ -677,7 +615,7 @@ function buildBarChart(raw) {
       .attr("width", x.bandwidth())
       .attr("y", y(0))
       .attr("height", 0)
-      .attr("fill", "#1A3993")
+      .attr("fill", "#7DCBCD")
       .attr("opacity", d => top5Set.has(d.shape) ? 1 : 0.45)
       .style("rx", 6)
       .style("ry", 6)
@@ -735,17 +673,24 @@ function buildBarChart(raw) {
   // Title + description
   const title = panel.append("text")
     .attr("x", 160)
-    .attr("y", 60)
+    .attr("y", 50)
     .attr("fill", "white")
     .style("font-size", "20px")
     .style("font-weight", 600);
 
   const body = panel.append("text")
     .attr("x", 160)
-    .attr("y", 75)
+    .attr("y", 80)
     .attr("fill", "white")
     .style("font-size", "16px")
     .style("line-height", 1.4);
+
+  const countText = panel.append("text")
+    .attr("x", 160)
+    .attr("y", 75)
+    .attr("fill", "#A7B2CE")
+    .style("font-size", "16px")
+    .style("font-weight", 500);
 
   // Word wrapping helper
   function wrapText(textSel, text, width) {
@@ -798,6 +743,7 @@ function buildBarChart(raw) {
     d3.select(event.currentTarget).attr("filter", "url(#glow)");
 
     title.text(`Shape: ${d.shape.charAt(0).toUpperCase() + d.shape.slice(1)}`);
+    countText.text(`Total Sightings: ${d.count}`);
     wrapText(body, descriptions[d.shape], panelWidth - 200);
 
     panel.transition().duration(350).style("opacity", 1);
@@ -864,7 +810,7 @@ d3.csv("dataset/ufo_sightings.csv").then(data => {
     .attr("y", d => y(d.length))
     .attr("width", d => Math.max(0, x(d.x1) - x(d.x0) - 1))
     .attr("height", d => innerHeight - y(d.length))
-    .attr("fill", "#1A3993");
+    .attr("fill", "#7DCBCD");
 
   // X Axis (white)
   g.append("g")
