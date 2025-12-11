@@ -70,158 +70,241 @@
         <img src="assets/images/ufo-two.png" class="ufo ufo-right" alt="ufo">
         <img src="assets/images/ufo-three.png" class="ufo ufo-bottom" alt="ufo">
 
-        <header>
 
+        <!-- Header -->
+        <header>
             <nav>
                 <a href="#introducion" class="logo">
                     <img src="assets/images/alien_white.png" alt="Logo" class="logo-icon">
                 </a>
 
                 <div class="navDiv">
-                    <a href= "#focus">About</a>
-                    <a href= "#timeline">Timeline</a>
-                    <a href= "#locations">Map</a>
-                    <a href= "#common-shape">UFO Shapes</a>
-                    <a href= "#histogram">Duration</a>
+                    <a href= "#focus">Prologue</a>
+                    <a href= "#vis">visualizations</a>
                     <a href= "#conclusion">Conclusion</a>
-
                 </div>
             </nav>
-
         </header>
 
+        <!-- Introduction -->
         <div class="introDiv" id="introducion">
             <h1>Look Up in the Sky</h1>
             <p>Whether it’s a satellite, a secret aircraft, or something not-of-this-world, 
                 every sighting leaves behind a story. Ready to decode the cosmic whispers?
             </p>
         </div>
-    
+
     </section>
 
-    <section class="focus-section" id="focus">
+    <!-- What is UFO -->
+
+    <section class="about-section" id="focus">
 
         <div>
-            <h2>Guiding Focus</h2>
-            <h1>What relationships exist between the location, time period, and reported characteristics 
-                of UFO sightings in the United States from the late 20th century to today?
-            </h1>
+            <h1>So...What is UFO?</h1>
         </div>
 
         <div class="space-down"> 
-            <p class="focus-title">
-                So...What is UFO?
-            </p>
-            <img src="assets/images/ufoSighting.png" class="focus-img" alt="ufo">
+
+            <img src="assets/images/ufoSighting.png" class="about-img" alt="ufo">
             <p>
-                First sighted in 1947, UFO, stands for <b>Unidentified Flying Object</b>, is 
-                any object or phenomenon observed in the sky that cannot be immediately identified. 
-                The term gained prominence after World War II with the advent of rocketry, 
-                leading some to speculate about extraterrestrial life visiting Earth.
+                First sighted in 1947, UFO, stands for Unidentified Flying Object, is any object or phenomenon observed in the sky that cannot be immediately identified. The term gained prominence after World War II with the advent of rocketry.
             </p>
-            <a href="https://www.britannica.com/topic/unidentified-flying-object" class="read-more">Learn more</a>
+            <a href="https://www.britannica.com/topic/unidentified-flying-object" class="read-more">Learn more here</a>
 
         </div>
 
-        <div class="space-down"> 
-            <p class="focus-title">
-                <b>Why the USA?</b>
-            </p>
-            <p>
-                The team decided to narrow our scope to the United States, 
-                where the majority of sightings occur, likely because the concept of UFOs is 
-                more culturally prominent and rooted in this region.
-            </p>
+    </section>
 
+    <!-- Prologue -->
+
+    <section class="prologue-section">
+
+        <img src="assets/images/prologue.png" class="prologue-img" alt="glowing stars">
+
+        <div>
+            <h1>Prologue</h1>
         </div>
 
         <div class="space-down"> 
-            <p class="focus-title">
-                <b>For the UFO enthusiasts...</b>
-            </p>
+            <h2>It all started with one question...</h2>
             <p>
-                This website contains interactive visualizations that highlights when 
-                and where sightings most frequently occur, helping enthusiasts like you to identify 
-                meaningful patterns and make more informed prediction of UFO activity. 
+                UFO sighting patterns may seem random or purely coincidental, but what if we could pinpoint the most likely locations and uncover the most common pattern characteristics? By transforming the dataset into meaningful visualizations, we aim to uncover and clearly communicate the insights behind UFO sighting trends.
+            </p>
+
+            <h2>Why USA?</h2>
+            <p>
+                The team decided to narrow our scope to the United States, where the majority of sightings occur, likely because 
+                the concept of UFOs is more culturally prominent and rooted in this region.
+
             </p>
 
         </div>
 
     </section>
 
-    <section class="vis-section" id="timeline">
+    <!-- Timeline -->
+
+    <section class="vis-section" id="vis">
+
+        <img src="assets/images/timeline.png" class="timeline-img" alt="timeline">
+
         <h1>Timeline of UFO Sightings in the past 20 years</h1>
-        <p class="smallDes">Answer the question to see the graph!</p>
+        <p class="smallDes">UFO sightings have been recorded since the 1940s, but for this project our team narrowed the scope to the past 20 years to focus on more relevant and consistently documented reports. Each year, thousands of sightings are reported, but which year had the most? Let’s take a closer look at the data to find out.</p>
 
+        <div> 
+            <p>But why don’t you make a guess between 2005-2014!</p>
 
-        <div id="guessContainer">
-            <p>Which year do you think had the most UFO sightings? (2005–2014)</p>
-            <input id="guessInput" type="number" placeholder="Enter a year" />
-            <button id="guessBtn">Submit</button>
-            <p id="guessError" style="color:red; display:none;">Invalid year. Try again.</p>
+            <!-- Line Chart -->
+            <div id="guessContainer">
+                <h3>Which year do you think had the most UFO sightings? (2005–2014)</h3>
+
+                <input id="guessInput" type="number" placeholder="Enter a year" />
+                <button id="guessBtn">Submit</button>
+                <p id="guessError">Invalid year. Try again.</p>
+            </div>
+
+            <div id="timelineWrapper" style="display:none;">
+                <div id="timelineChart"></div>
+            </div>
+
         </div>
 
-        <div id="timelineWrapper" style="display:none;">
-            <div id="timelineChart"></div>
-        </div>
-
-        <p class="focus-title">
-            <b>Insight</b>
+        <p>
+            From 2005 to 2010, UFO sightings remained relatively steady with only minor growth. Reports peaked in 2012, highlighted by notable U.S. cases such as a large triangular craft seen by an Air Force veteran at Langley AFB, a cylindrical object over Utah’s Skinwalker Ranch, and glowing orbs reported in Missouri and New York.
         </p>
-            <p>
-                From 2005 to 2010, UFO sightings were fairly steady, with only a slight increase over time. 
-                In 2012, the number of reports peaked, which may be linked to the official end of the U.S. 
-                government’s secretive UFO program, AATIP. Following 2012, sightings dropped noticeably, 
-                returning closer to the levels seen earlier in the decade.
-            </p>
+
+        <p>
+            The peak may be linked to the official end of the U.S. government’s secretive UFO program, AATIP. Following 2012, sightings dropped noticeably, returning closer to the levels seen earlier in the decade.
+        </p>
+
     </section>
 
-    
+    <!-- Location Sighting -->
 
-    <section class="vis-section" id="locations">
+    <section class="vis-section">
+
+        <img src="assets/images/satellite.png" class="timeline-img" alt="satellite">
+
         <h1>Locations of UFO Sightings in the past 20 years</h1>
-        <p class="smallDes">Drag the slider to see some changes</p>
+        <p class="smallDes">Although UFO reports occur nationwide, certain regions consistently record higher levels of activity. Before creating the visualization, the team hypothesized that most sightings would come from rural or less populated areas. However, the visualization reveals a different pattern...</p>
 
-        <div class="year-slider-container">
-    <label id="yearLabel"><b>Showing up to year: 2005</b></label>
-    <input type="range" id="yearSlider" min="2005" max="2014" value="2005" step="1">
-</div>
+        <div class="space-downTwo"> 
+            <p>Drag the slider to see some changes over the years</p>
+            <div class="year-slider-container">
+                <label id="yearLabel"><b>Showing up to year: 2005</b></label>
+                <input type="range" id="yearSlider" min="2005" max="2014" value="2005" step="1">
+            </div>
+            <div id="ufoMap" style="width: 100%; height: 500px;"></div>
 
-        <div id="ufoMap" style="width: 100%; height: 650px;"></div>
-
-        <p class="focus-title">
-                <b>Insight</b>
-            </p>
-            <p>
-                From the visualization, the eastern states reported more sightings than western states. 
-                Specifically, Chicago on the east coast and LA on the west coast reported to have the most 
-                reports within their respective regions. Our team’s hypothesis for this reason is that these 
-                cities are heavily populated, increasing the likelihood for ufo exposure. However, these cities 
-                are filled with lights and other atmospheric objects, making it plausible for some of these ufo sightings 
-                to be mistaken from something else. 
-            </p>
-    </section>
-
-    <section class="vis-section" id="common-shape">
-        <h1>Most common Shapes</h1>
-        <p class="smallDes">Click on the bars to learn about the UFO shape!</p>
+        </div>
         
-            <div id="bars" class="viz"></div>
-        <p class="focus-title">
-                <b>Insight</b>
-            </p>
+        <p> 
+            The visualization shows that the eastern coast reported slightly more sightings than the western coast. Specifically, Chicago on the east recorded around 154 reports, while Los Angeles on the west had approximately 139 reports, making them the cities with the highest sightings in their respective regions.
+        </p>
+
+        <p>
+            <b>There are the top 6 states/cities with the most reported sighting...</b>
+        </p>
+
+        <div class="cards">
+            <div class="card">
+                <div class="thumb"></div>
+                <div class="info">
+                    <h2>Chicago</h2>
+                    <p>a asdkjfnalsdfnl city asdfajsn dflaj asdfa sdf asd fasd fas df with 1000 reports.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="thumb"></div>
+                <div class="info">
+                    <h2>Chicago</h2>
+                    <p>a asdkjfnalsdfnl city asdfajsn dflaj asdfa sdf asd fasd fas df with 1000 reports.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="thumb"></div>
+                <div class="info">
+                    <h2>Chicago</h2>
+                    <p>a asdkjfnalsdfnl city asdfajsn dflaj asdfa sdf asd fasd fas df with 1000 reports.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="thumb"></div>
+                <div class="info">
+                    <h2>Chicago</h2>
+                    <p>a asdkjfnalsdfnl city asdfajsn dflaj asdfa sdf asd fasd fas df with 1000 reports.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="thumb"></div>
+                <div class="info">
+                    <h2>Chicago</h2>
+                    <p>a asdkjfnalsdfnl city asdfajsn dflaj asdfa sdf asd fasd fas df with 1000 reports.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="thumb"></div>
+                <div class="info">
+                    <h2>Chicago</h2>
+                    <p>a asdkjfnalsdfnl city asdfajsn dflaj asdfa sdf asd fasd fas df with 1000 reports.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div>
             <p>
-                From the dataset, the most commonly identified ufo shapes are the light, triangle, 
-                circle, fireball and sphere shapes. We had intentionally excluded the unknown and other 
-                shapes as the credibility of those reports are up to debate as they lack detail in their sightings. 
-                Our hypothesis for this reason is because these shapes are visually similarly to one another, making it 
-                likely that the most prominent would be visually similar shapes.
+                The team was surprised to see more sightings in densely populated areas, but we also think...These cities, especially the highly populated ones are filled with lights and other atmospheric objects, making it plausible for some of these ufo sightings to be mistaken from something else. 
             </p>
+
+        </div>
+
     </section>
 
-    <section class="vis-section" id="shape-map">
-        <h1>UFO Sightings by Shape</h1>
-        <p class="smallDes">Select a UFO shape to see where sightings of that type have occurred.</p>
+    <section class="vis-section">
+
+        <img src="assets/images/shape.png" class="prologue-img" alt="shapes">
+
+        <h1>Hmmm...What’s the most common shape?</h1>
+        <p class="smallDes">Which shapes appear most often, and what might that reveal about the nature of these sightings?</p>
+        <p>UFO reports describe a wide variety of shapes, ranging from classic discs and spheres to triangles, cylinders, and even more unusual forms. With such diversity, it can be challenging to determine which shapes are reported most frequently. So, among hundreds or even thousands of reports, which shape emerges as the most common?</p>
+
+        <div>
+            <p>Click on the bars to learn about the top 5 UFO shape!</p>
+            <div id="bars" class="viz"></div>
+
+        </div>
+
+        <div>
+            <p>
+                From the dataset, the most commonly identified ufo shapes are the light, triangle, circle, fireball and sphere shapes. We had intentionally excluded the unknown and other shapes as the credibility of those reports are up to debate as they lack detail in their sightings. 
+            </p>
+
+            <p>
+                The light shape dominates UFO reports, with approximately 12,000 sightings, nearly double that of the other four shapes in the top five. UFO enthusiasts can therefore expect that a flashing light is the most commonly reported feature during sightings. However, the team remains cautious, as these flashing lights could also be mistaken for common objects such as aircraft or drones, so the result should be interpreted with a grain of salt.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="vis-section">
+
+        <img src="assets/images/shapetwo.png" class="prologue-img" alt="shapes">
+
+        <h1>Shape Distribution around the United States</h1>
+        <p class="smallDes">Now that we know the top five most common UFO shapes, the next step is to explore how these shapes are distributed across different states. Are certain shapes more frequently reported in specific regions, or do they appear evenly across the country? By mapping the data at the state level, we can better understand which UFO shapes people are most likely to encounter in different regions.</p>
+
+        <p>Select a UFO shape to see where sightings of that type have occurred.</p>
+
+        <!-- Map container -->
+        <div id="shapeMap" style="width: 100%; height: 500px"></div>
 
         <!-- Dropdown for selecting shape -->
         <div class="shape-filter">
@@ -234,56 +317,52 @@
                 <option value="disk">Disk</option>
             </select>
         </div>
-
-        <!-- Map container -->
-        <div id="shapeMap" style="width: 100%; height: 650px"></div>
-        <p class="focus-title">
-                <b>Insight</b>
-            </p>
         <p id="shapeInsight"></p>
     </section>
+    
+    <section class="vis-section">
 
-    <section class="vis-section" id="histogram">
+        <img src="assets/images/duration.png" alt="shapes">
+        <h1>UFO Duration Histogram (Trimmed 0–95th Percentile)</h1>
+        <p class="smallDes">something something</p>
+        
+
         <div>
-            <h1>UFO Duration Histogram (Trimmed 0–95th Percentile)</h1>
             <svg id="chart" width="900" height="500"></svg>
         </div>
-        
-        <div class="space-down"> 
-            <p class="focus-title">
-                <b>Insight</b>
-            </p>
-            <p>
-                The left skewness of data indicates the amount of sightings reported within a short period of time. 
-                This indicates a higher potential of the UFO being mistaken for something else as most viewers may not 
-                had enough time to process what they were seeing. As many reports show, ufo sightings are commonly mistaken 
-                for everyday, explainable objects such as planes, lights or clouds. (BCC article)
-            </p>
 
-        </div>
+        <p>Describe the graph</p>
+        <p><b>However, </b>The left skewness of data indicates the amount of sightings reported within a short period of time. This indicates a higher potential of the UFO being mistaken for something else as most viewers may not had enough time to process what they were seeing. As many reports show, ufo sightings are commonly mistaken for everyday, explainable objects such as planes, lights or clouds. (BCC article)</p>
 
     </section>
 
-    <section class="focus-section" id="conclusion">
-        <div>
+
+
+    <section class="vis-section" id="conclusion">
+
+        <img src="assets/images/main.png" alt="shapes">
+
+        <div class="conclude-down">
             <h2>Main Insight</h2>
-            <h1>Based on the visualizations, Downtown Chicago is a sighting hotspot. 
-                Light-shaped UFOs have been reported there, and most sightings last less than one minute.
+            <h1>Chicago or LA downtown are sighing hotspots. With Light shape being the most common. The average duration is within a minute 
             </h1>
+            <p>aaskdfnaskdfnalskdf </p>
         </div>
 
-        <div class="space-down"> 
-            <p class="focus-title">
-                <b>However, could it be something else...?</b>
-            </p>
-            <p>
-                The team would like to note that people often mistake UFO sightings for other objects, 
-                such as airplanes, clouds, and more. Even though the next sighting could occur just around 
-                the block from your home, there is always a possibility that it may be something else. 
-                When observing a potential UFO, be sure to distinguish it from common objects before reporting the sighting.
-            </p>
+        <h1>But also consider this...</h1>
+        <p><b>Could some UFO sightings be something else...?</b></p>
+        <p>The team would like to note that people sometimes mistake UFO sightings for other objects, such as airplanes, clouds, and more. Even though the next sighting could occur just around the block from your home, there is always a possibility that it may be something else. When observing a potential UFO, be sure to distinguish it from common objects before reporting the sighting. 70% of the report ended being a false alarm.</p>
 
-        </div>
+        <h2>Some common cases of mistaken identity:</h2>
+        <img src="assets/images/common.png" alt="shapes" class="conclude-image">
+
+        <p>
+            <b>So what??</b>
+        </p>
+
+        <p>
+            Take this analysis with a grain of salt, as it is not intended to provide definitive proof of UFO activity. Rather, it offers UFO chasers some data-driven insights that may help inform their next search. For the general public, it simply highlights interesting patterns in how sightings are reported across regions. But you never know...One just might be floating above you right now...
+        </p>
         
     </section>
 
@@ -295,7 +374,10 @@
   <footer>
     <section class="footer-section">
         <img src="assets/images/footerImg.png" class="footer-bg" alt="background">
+        <div>
 
+            <p>Designed & coded by Error 404</p>
+        </div>
     </section>
 
   </footer>
