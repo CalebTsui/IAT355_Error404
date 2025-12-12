@@ -682,6 +682,10 @@ footer h3 {
         padding: 0.8rem 1.5rem;
     }
 
+    .hero{
+        min-height: 50vh;  
+    }
+
     .introDiv {
         padding: 5rem 2rem;
     }
@@ -763,6 +767,10 @@ footer h3 {
         padding: 0.4rem 0.8rem;
     }
 
+    .hero{
+        min-height: 50vh;  
+    }
+
     /* Intro */
     .introDiv {
         padding: 2rem 1.2rem;
@@ -816,7 +824,7 @@ footer h3 {
     .ufo-top {
         width: 20%;
         right: 2%;
-        top: 18%;
+        top: 15%;
     }
 
     .ufo-down {
@@ -853,12 +861,12 @@ footer h3 {
     }
 
     #guessInput {
-        width: 85%;
+        width: 90%;
         font-size: 0.9rem;
     }
 
     #guessBtn {
-        width: 100%;
+        width: 90%;
         font-size: 0.9rem;
         padding: 0.7rem 1rem;
     }
@@ -884,6 +892,159 @@ footer h3 {
     footer h3 {
         font-size: 1.2rem;
     }
+
+    
 }
+
+/* Extra-Small Mobile (400px and below) */
+@media only screen and (max-width: 400px) {
+
+    /* Navigation */
+    header {
+        padding: 1rem 1rem;
+    }
+
+    nav {
+        gap: 0.5rem;
+        padding: 0.5rem 0.8rem;
+    }
+
+    nav a {
+        font-size: 0.85rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .hero{
+        min-height: 30vh;  
+    }
+
+    .introDiv {
+        padding: 1.5rem 1rem !important; 
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .about-section {
+        padding-top: 1rem !important;
+        margin-top: 0 !important;
+    }
+
+    .introDiv h1 {
+        font-size: 1.6rem;
+    }
+
+    .introDiv p {
+        width: 95%;
+        font-size: 1rem;
+    }
+
+    /* Section padding */
+    .about-section,
+    .prologue-section,
+    .vis-section,
+    .footer-section {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+
+    /* Text sizes */
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.2rem; }
+    h3 { font-size: 1rem; }
+    p  { font-size: 1rem; }
+
+    /* UFO adjustments */
+    .ufo-left {
+        width: 23%;
+        left: 33%;
+        top: 60%;
+    }
+
+    .ufo-right {
+        width: 35%;
+        left: 0%;
+        bottom: 5%;
+    }
+
+    .ufo-bottom {
+        width: 50%;
+        right: -5%;
+        bottom: 20%;
+    }
+
+    .ufo-top {
+        width: 20%;
+        right: 0%;
+        top: 22%;
+    }
+
+    .ufo-down {
+        width: 25%;
+        right: 20%;
+        bottom: -5%;
+    }
+
+    /* Cards full width, tighter spacing */
+    .cards {
+        gap: 1rem;
+    }
+
+    .card {
+        width: 100%;
+        padding: 0.8rem;
+        gap: 1rem;
+    }
+
+    .thumb {
+        width: 4rem;
+        height: 5.5rem;
+    }
+
+    .info p {
+        font-size: 0.85rem;
+    }
+
+    /* Guess box */
+    #guessContainer {
+        padding: 1rem;
+        gap: 0.8rem;
+    }
+
+    #guessInput {
+        width: 100%;
+        font-size: 0.85rem;
+    }
+
+    #guessBtn {
+        width: 100%;
+        font-size: 0.85rem;
+        padding: 0.6rem 1rem;
+    }
+
+    /* Slider */
+    #yearSlider {
+        width: 100%;
+    }
+
+    /* Images shrink automatically */
+    .timeline-img,
+    .prologue-img {
+        width: 60%;
+    }
+
+    .thumb-image,
+    .conclude-image {
+        border-radius: 0.6rem;
+    }
+
+    footer h3 {
+        font-size: 1rem;
+    }
+}
+
+
+
 
 
