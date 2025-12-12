@@ -520,7 +520,7 @@ nav a {
     display: flex;
     align-items: center;
     background: #1A1E36; 
-    width: 40.5%;   
+    width: 48%;   
 
     padding-left: 2rem;
     padding-right: 2rem;
@@ -671,7 +671,7 @@ footer h3 {
 
 
 /* Responsive – Tablet (1024px and below) */
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 1300px) {
 
     /* Reduce global padding */
     header {
@@ -712,9 +712,10 @@ footer h3 {
     h1 { font-size: 2.2rem; }
     p  { font-size: 1.3rem; }
 
-    /* Cards scale to wider */
     .card {
-        width: 48%;
+        flex: 1 1 90%;   
+        max-width: none;
+        padding: 1rem;
     }
 
     /* Images */
@@ -784,7 +785,7 @@ footer h3 {
 
     /* Cards go full width */
     .cards {
-        gap: 1.5rem;
+        gap: 2rem;
     }
 
     .card {
