@@ -37,12 +37,14 @@ p {
 .hero {
     position: relative;
     width: 100%;
-    height: 100vh;
+    height: auto;       
+    min-height: 100vh;  
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: visible;
 }
+
 
 .hero-bg {
     position: absolute;
@@ -105,6 +107,8 @@ nav a {
     z-index: 0;
     animation: float 6s ease-in-out infinite;
     pointer-events: none;
+
+    transform: translateZ(0); 
 }
 
 .ufo-left {
@@ -190,8 +194,8 @@ nav a {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 8rem;
-    margin-top: -3rem;
+    padding: 4rem 2rem;
+    margin-top: 0;
 }
 
 .introDiv h1 {
@@ -594,7 +598,6 @@ nav a {
     border-radius: 1rem;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
-    
 }
 
 .conclude-down {
@@ -655,12 +658,221 @@ footer h3 {
   stroke: #FFFFFF;
 }
 
-/* Responsive */
+/* Responsive – Tablet (1024px and below) */
+@media only screen and (max-width: 1024px) {
 
-@media only screen and (max-width: 800px) {
-   
+    /* Reduce global padding */
+    header {
+        padding: 2rem 3rem;
+    }
+
+    nav {
+        gap: 3rem;
+        padding: 0.8rem 1.5rem;
+    }
+
+    .introDiv {
+        padding: 5rem 2rem;
+    }
+
+    .introDiv p {
+        width: 75vw;
+        font-size: 1.3rem;
+    }
+
+    .ufo-left {
+        width: 20%;
+        left: 8%;
+        top: 15%;
+    }
+
+    .ufo-right {
+        width: 30%;
+        left: 5%;
+        bottom: 15%;
+    }
+
+    .ufo-bottom {
+        width: 50%;
+        right: -4%;
+        bottom: 15%;
+    }
+
+    .ufo-top {
+        width: 25%;
+        right: 2%;
+        top: 18%;
+    }
+
+    .ufo-down {
+        width:25%;
+        right:35%;
+        bottom: -15%;
+    }
+
+    /* Section padding */
+    .about-section,
+    .prologue-section,
+    .vis-section,
+    .footer-section {
+        padding-left: 10rem;
+        padding-right: 10rem;
+    }
+
+    h1 { font-size: 2.2rem; }
+    p  { font-size: 1.3rem; }
+
+    /* Cards scale to wider */
+    .card {
+        width: 48%;
+    }
+
+    /* Images */
+    .timeline-img,
+    .prologue-img {
+        width: 30%;
+    }
 }
 
+/* Responsive – Mobile (600px and below) */
 @media only screen and (max-width: 600px) {
-    
+
+    /* Navigation stacked */
+    header {
+        padding: 1.5rem 1.2rem;
+    }
+
+    nav {
+        gap: 1rem;
+        padding: 0.6rem 1rem;
+    }
+
+    nav a {
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    /* Intro */
+    .introDiv {
+        padding: 2rem 1.2rem;
+        margin-top: 0;
+    }
+
+    .introDiv h1 {
+        font-size: 2rem;
+    }
+
+    .introDiv p {
+        width: 85%;
+        font-size: 1.1rem;
+    }
+
+    /* Section padding reduced heavily */
+    .about-section,
+    .prologue-section,
+    .vis-section,
+    .footer-section {
+        padding-left: 4rem;
+        padding-right: 4rem;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+
+    /* Typography */
+    h1 { font-size: 1.9rem; }
+    h2 { font-size: 1.4rem; }
+    h3 { font-size: 1.1rem; }
+    p  { font-size: 1.1rem; }
+
+    .ufo-left {
+        width: 20%;
+        left: 15%;
+        top: 50%;
+    }
+
+    .ufo-right {
+        width: 30%;
+        left: 5%;
+        bottom: 8%;
+    }
+
+    .ufo-bottom {
+        width:70%;
+        right: -6%;
+        bottom: 25%;
+    }
+
+    .ufo-top {
+        width: 20%;
+        right: 2%;
+        top: 18%;
+    }
+
+    .ufo-down {
+        width: 30%;
+        right: 25%;
+        bottom: -7%;
+    }
+
+    /* Cards go full width */
+    .cards {
+        gap: 1.5rem;
+    }
+
+    .card {
+        width: 100%;
+        flex-direction: row;
+        padding: 1rem;
+    }
+
+    .thumb {
+        width: 4.5rem;
+        height: 6rem;
+    }
+
+    .info p {
+        font-size: 0.9rem;
+    }
+
+    /* Guess input */
+    #guessContainer {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.2rem;
+    }
+
+    #guessInput {
+        width: 85%;
+        font-size: 0.9rem;
+    }
+
+    #guessBtn {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 0.7rem 1rem;
+    }
+
+    /* Slider */
+    #yearSlider {
+        width: 90%;
+    }
+
+    /* Images */
+    .timeline-img,
+    .prologue-img {
+        width: 50%;
+    }
+
+    .thumb-image,
+    .conclude-image {
+        width: 100%;
+        border-radius: 0.8rem;
+    }
+
+    /* Footer text */
+    footer h3 {
+        font-size: 1.2rem;
+    }
 }
+
+
