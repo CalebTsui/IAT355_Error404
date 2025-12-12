@@ -669,6 +669,7 @@ footer h3 {
   stroke: #FFFFFF;
 }
 
+
 /* Responsive – Tablet (1024px and below) */
 @media only screen and (max-width: 1100px) {
 
@@ -695,34 +696,8 @@ footer h3 {
         font-size: 1.3rem;
     }
 
-    .ufo-left {
-        width: 20%;
-        left: 8%;
-        top: 15%;
-    }
-
-    .ufo-right {
-        width: 30%;
-        left: 5%;
-        bottom: 15%;
-    }
-
-    .ufo-bottom {
-        width: 50%;
-        right: -4%;
-        bottom: 15%;
-    }
-
-    .ufo-top {
-        width: 25%;
-        right: 2%;
-        top: 18%;
-    }
-
-    .ufo-down {
-        width:25%;
-        right:35%;
-        bottom: -15%;
+    .ufo {
+        display: none;
     }
 
     /* Section padding */
@@ -803,34 +778,8 @@ footer h3 {
     h3 { font-size: 1.1rem; }
     p  { font-size: 1.1rem; }
 
-    .ufo-left {
-        width: 20%;
-        left: 15%;
-        top: 50%;
-    }
-
-    .ufo-right {
-        width: 30%;
-        left: 5%;
-        bottom: 8%;
-    }
-
-    .ufo-bottom {
-        width:70%;
-        right: -6%;
-        bottom: 25%;
-    }
-
-    .ufo-top {
-        width: 20%;
-        right: 2%;
-        top: 15%;
-    }
-
-    .ufo-down {
-        width: 30%;
-        right: 25%;
-        bottom: -7%;
+    .ufo {
+        display: none;
     }
 
     /* Cards go full width */
