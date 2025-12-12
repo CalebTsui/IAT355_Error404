@@ -905,34 +905,8 @@ footer h3 {
     p  { font-size: 1rem; }
 
     /* UFO adjustments */
-    .ufo-left {
-        width: 23%;
-        left: 33%;
-        top: 60%;
-    }
-
-    .ufo-right {
-        width: 35%;
-        left: 0%;
-        bottom: 5%;
-    }
-
-    .ufo-bottom {
-        width: 50%;
-        right: -5%;
-        bottom: 20%;
-    }
-
-    .ufo-top {
-        width: 20%;
-        right: 0%;
-        top: 22%;
-    }
-
-    .ufo-down {
-        width: 25%;
-        right: 20%;
-        bottom: -5%;
+    .ufo {
+        display: none;
     }
 
     /* Cards full width, tighter spacing */
