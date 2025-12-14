@@ -343,7 +343,7 @@ function drawTimeline(ufoData) {
 
             svg.append("text")
                 .attr("x", x(guessedYear))
-                .attr("y", y(guessedData.count) - 15)
+                .attr("y", y(guessedData.count) - 25)
                 .attr("text-anchor", "middle")
                 .attr("fill", "gold")
                 .style("font-size", "14px")
