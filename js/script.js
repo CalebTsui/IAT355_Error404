@@ -280,9 +280,7 @@ function drawTimeline(ufoData) {
             })
             .on("mouseout", () => tooltip.style("opacity", 0));
 
-        // ------------------------------
-        // Annotation (2012)
-        // ------------------------------
+        // annotation
         const annotationYear = 2012;
         const annotationX = x(annotationYear);
 
@@ -296,7 +294,7 @@ function drawTimeline(ufoData) {
             .attr("stroke-dasharray", "6 4");
 
         const annoGroup = svg.append("g")
-            .attr("transform", `translate(${annotationX - 200}, ${y(6000) - 50})`);
+            .attr("transform", `translate(${annotationX - 270}, ${y(6000) - 50})`);
 
         annoGroup.append("rect")
             .attr("width", 250)
@@ -323,9 +321,7 @@ function drawTimeline(ufoData) {
                 .text(t);
         });
 
-        // ------------------------------
-        // User Guess Marker
-        // ------------------------------
+        // user guess stuff
         const guessedData = sightingsByYear.find(d => d.year === guessedYear);
 
         if (guessedData) {
@@ -378,9 +374,6 @@ function drawTimeline(ufoData) {
     }
 }
 
-// --------------------------------------------------
-// Debounce utility
-// --------------------------------------------------
 function debounce(fn, delay) {
     let timeout;
     return function () {
@@ -408,7 +401,6 @@ fetchData().then(({ ufoClean }) => {
     const ufoRange = ufoClean.filter(d =>
         d.year >= minYear && d.year <= maxYear
     );
-    // -------------------------
 
     // Insights
     const shapeInsights = {
@@ -529,9 +521,7 @@ function renderBarChart(raw) {
     sphere: "assets/images/sphere.png"
   };
 
-  // -----------------------------
-  // SVG for bars
-  // -----------------------------
+  // drawing bars
   const svg = container.append("svg")
     .attr("width", width)
     .attr("height", height);
@@ -586,13 +576,9 @@ function renderBarChart(raw) {
     .attr("y", d => y(d.count))
     .attr("height", d => innerHeight - y(d.count));
 
-  // Annotation panel BELOW chart
-
   d3.select("#annotation-panel").remove();
 
-  // -------------------------------
-// ANNOTATION PANEL (DIV, hidden by default, flex layout)
-// -------------------------------
+  // annotation
 const panel = container.append("div")
     .attr("id", "annotation-panel")
     .style("width", "100%")
